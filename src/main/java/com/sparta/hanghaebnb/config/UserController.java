@@ -1,11 +1,13 @@
 package com.sparta.hanghaebnb.config;
 
+import com.sparta.hanghaebnb.dto.MessageResponseDto;
+import com.sparta.hanghaebnb.dto.SignupRequestDto;
 import com.sparta.hanghaebnb.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,9 +16,8 @@ public class UserController {
 
     private final UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String handler(Model model) {
-        model.addAttribute("Hello World");
-        return "helloworld";
+    @PostMapping("/signup")
+    public MessageResponseDto signup(@Valid @RequestBody SignupRequestDto signupRequestDto) {
+        return userService.signup(signupRequestDto);
     }
 }
