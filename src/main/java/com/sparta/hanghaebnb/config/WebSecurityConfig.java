@@ -55,6 +55,7 @@ public class WebSecurityConfig {
                         "/v3/api-docs/**",
                         "/swagger-ui.html",
                         "/swagger-ui/**").permitAll()
+                .antMatchers("/actuator/health").permitAll()
                 .antMatchers("/api/users/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/boards").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/boards/{id}").permitAll()
