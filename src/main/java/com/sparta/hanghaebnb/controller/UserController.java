@@ -1,4 +1,4 @@
-package com.sparta.hanghaebnb.config;
+package com.sparta.hanghaebnb.controller;
 
 import com.sparta.hanghaebnb.dto.MessageResponseDto;
 import com.sparta.hanghaebnb.dto.SignupRequestDto;
