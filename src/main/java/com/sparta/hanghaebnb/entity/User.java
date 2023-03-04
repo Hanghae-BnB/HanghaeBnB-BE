@@ -29,11 +29,20 @@ public class User {
     private String email;
 
     @Builder
-    public User(SignupRequestDto signupRequestDto) {
-        this.username = signupRequestDto.getUsername();
-        this.password = signupRequestDto.getPassword();
-        this.birth = signupRequestDto.getBirth();
-        this.email = signupRequestDto.getEmail();
+    public User(String username,String password, String birth, String  email) {
+        this.username = username;
+        this.password = password;
+        this.birth = birth;
+        this.email = email;
+    }
+
+    public static User of(String username, String password, String birth, String email) {
+        return builder()
+                .username(username)
+                .password(password)
+                .birth(birth)
+                .email(email)
+                .build();
     }
 
 }
