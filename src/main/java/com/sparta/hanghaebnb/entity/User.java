@@ -28,8 +28,9 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+
     @Builder
-    public User(String username,String password, String birth, String  email) {
+    private User(String username,String password, String birth, String  email) {
         this.username = username;
         this.password = password;
         this.birth = birth;

@@ -1,6 +1,8 @@
 package com.sparta.hanghaebnb.entity;
 
+import com.sparta.hanghaebnb.dto.HouseRequestDto;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,8 +28,10 @@ public class House extends Timestamped{
     private String location;
 
     @Column(nullable = false)
-    private String explanation;
+    private String explaination;
 
+    @Column(nullable = false)
+    private String category;
     @Column(nullable = false)
     private String imgUrl;
 
@@ -43,6 +47,9 @@ public class House extends Timestamped{
     @Column(nullable = false)
     private String houseCase;
 
+    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
+    private List<Facility> facilities = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USERS_ID",nullable = false)
     private User user;
@@ -51,8 +58,46 @@ public class House extends Timestamped{
     private List<Review> reviewList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "WISHLIST_ID",nullable = false)
-    private WishList wishList;
+    @JoinColumn(name = "WISHLIST_ID")
+    private WishList wishList ;
+
+    @Builder
+    private House(String title, int price, String location, String explaination, String category, String imgUrl, int maxNumPeople, int bedNum, int bathNum, String houseCase, List<Facility> facilities, User user) {
+        this.title = title;
+        this.price = price;
+        this.location = location;
+        this.explaination = explaination;
+        this.category = category;
+        this.imgUrl = imgUrl;
+        this.maxNumPeople = maxNumPeople;
+        this.bedNum = bedNum;
+        this.bathNum = bathNum;
+        this.houseCase = houseCase;
+        this.facilities = facilities;
+        this.user = user;
+    }
 
 
+
+
+    public static House of(HouseRequestDto houseRequestDto,User user){
+        return House.builder()
+                .title(houseRequestDto.getTitle())
+                .price(houseRequestDto.getPrice())
+                .location(houseRequestDto.getLocation())
+                .category(houseRequestDto.getCategory())
+                .explaination(houseRequestDto.getExplaination())
+                .imgUrl(houseRequestDto.getFile().getName())
+                .maxNumPeople(houseRequestDto.getMaxPeople())
+                .bedNum(houseRequestDto.getBedRoom())
+                .bathNum(houseRequestDto.getBathRoom())
+                .houseCase(houseRequestDto.getHouseCase())
+                .user(user)
+                .build();
+    }
+
+    //연관관계 매세드
+    public void addFacilities(List<Facility> facilities){
+        this.facilities = facilities;
+    }
 }

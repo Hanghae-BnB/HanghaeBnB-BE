@@ -1,3 +1,4 @@
+/*
 package com.sparta.hanghaebnb.healthcheck;
 
 import org.springframework.boot.actuate.health.Health;
@@ -18,3 +19,4 @@ public class HealthCheck implements HealthIndicator {
         return true;
     }
 }
+*/

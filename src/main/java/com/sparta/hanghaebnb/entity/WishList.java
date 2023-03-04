@@ -10,16 +10,17 @@ import java.util.List;
 
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class WishList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USERS_ID",nullable = false)
-    private User user;
+    @OneToOne
+    @JoinColumn(name = "user_id",nullable = false)
+    private User user ;
 
     @OneToMany(mappedBy = "wishList", cascade = CascadeType.ALL)
     private List<House> houses = new ArrayList<>();
+
 }
