@@ -4,8 +4,10 @@ import com.sparta.hanghaebnb.dto.LoginRequestDto;
 import com.sparta.hanghaebnb.dto.LoginResponseDto;
 import com.sparta.hanghaebnb.dto.MessageResponseDto;
 import com.sparta.hanghaebnb.dto.SignupRequestDto;
+import com.sparta.hanghaebnb.security.UserDetailsImpl;
 import com.sparta.hanghaebnb.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,5 +29,10 @@ public class UserController {
     @PostMapping("/login")
     public LoginResponseDto login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
         return userService.login(loginRequestDto, response);
+    }
+
+    @PostMapping("/logout")
+    public MessageResponseDto logout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return userService.logout(userDetails.getUser());
     }
 }

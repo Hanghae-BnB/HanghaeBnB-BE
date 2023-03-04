@@ -47,4 +47,12 @@ public class UserService {
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getEmail()));
         return LoginResponseDto.builder().username(user.getUsername()).build();
     }
+
+    public MessageResponseDto logout(User user) {
+        User userCheck = userRepository.findByEmail(user.getEmail()).orElseThrow(
+                () -> new IllegalArgumentException("회원이 존재하지 않습니다.")
+        );
+
+        return apiResponse.success("로그아웃 성공");
+    }
 }
