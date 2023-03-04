@@ -1,6 +1,7 @@
 package com.sparta.hanghaebnb.service;
 
 import com.sparta.hanghaebnb.dto.HouseRequestDto;
+import com.sparta.hanghaebnb.dto.HouseResponseDto;
 import com.sparta.hanghaebnb.dto.MessageResponseDto;
 import com.sparta.hanghaebnb.entity.Facility;
 import com.sparta.hanghaebnb.entity.House;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,5 +34,13 @@ public class HouseService {
         newHouse.addFacilities(facilities);
         houseRepository.save(newHouse);
         return new MessageResponseDto("성공", HttpStatus.OK);
+    }
+
+    /**
+     * 게시글 전체 조회 기능 (추가 진행 예정)
+     */
+    public List<HouseResponseDto> findAllHouse() {
+        List<House> houses = houseRepository.findAllByOrderByCreatedAtDesc();
+        return houses.stream().map( h -> HouseResponseDto.from(h,10 ,10)).collect(Collectors.toList());
     }
 }
