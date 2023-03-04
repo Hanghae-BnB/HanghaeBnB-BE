@@ -36,4 +36,13 @@ public class HouseController {
     public List<HouseResponseDto> houses(){
         return houseService.findAllHouse();
     }
+
+
+    /**
+     * 여행지 상세보기
+     */
+    @GetMapping("/houses/{houseId}")
+    public HouseResponseDto house(@PathVariable Long houseId){
+        return houseService.findHouse(houseId);
+    }
 }
