@@ -18,5 +18,6 @@ public class Review extends Timestamped{
     private House house;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USERS_ID",nullable = false)
     private User user;
 }

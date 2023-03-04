@@ -18,5 +18,6 @@ public class Facility {
     private String type;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "HOUSE_ID",nullable = false)
     private House house;
 }

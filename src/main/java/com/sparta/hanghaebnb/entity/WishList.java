@@ -15,6 +15,7 @@ public class WishList {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USERS_ID",nullable = false)
     private User user;
 
 }

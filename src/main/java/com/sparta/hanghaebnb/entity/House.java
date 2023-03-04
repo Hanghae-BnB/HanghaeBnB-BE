@@ -44,12 +44,14 @@ public class House extends Timestamped{
     private String houseCase;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USERS_ID",nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "WISHLIST_ID",nullable = false)
     private WishList wishList;
 
 
