@@ -43,4 +43,14 @@ public class HouseService {
         List<House> houses = houseRepository.findAllByOrderByCreatedAtDesc();
         return houses.stream().map( h -> HouseResponseDto.from(h,10 ,10)).collect(Collectors.toList());
     }
+
+    /**
+     * 해당 게시글 조회 기능(추가 진행 예정)
+     */
+    public HouseResponseDto findHouse(Long houseId) {
+        House findHouse = houseRepository.findById(houseId).orElseThrow(
+                () -> new IllegalStateException("해당 게시물이 존재하지 않습니다")
+        );
+        return HouseResponseDto.from(findHouse,10,10);
+    }
 }
