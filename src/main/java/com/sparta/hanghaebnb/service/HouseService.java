@@ -21,6 +21,10 @@ import java.util.stream.Collectors;
 public class HouseService {
 
     private final HouseRepository houseRepository;
+
+    /**
+     * 게시글 작성 기능
+     */
     public MessageResponseDto join(HouseRequestDto houseRequestDto, UserDetailsImpl userDetails) {
         // House Entity 생성
         House newHouse = House.of(houseRequestDto, userDetails.getUser());

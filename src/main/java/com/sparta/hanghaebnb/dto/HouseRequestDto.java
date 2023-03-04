@@ -1,13 +1,9 @@
 package com.sparta.hanghaebnb.dto;
 
-import com.sparta.hanghaebnb.entity.Facility;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -15,8 +11,8 @@ import java.util.List;
 public class HouseRequestDto {
 
     private String title;
-    private String detail;
     private int price;
+    private String explaination;
     private String location;
     private String category;
     private int maxPeople;

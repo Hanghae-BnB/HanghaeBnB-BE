@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Entity
@@ -30,8 +28,10 @@ public class House extends Timestamped{
     private String location;
 
     @Column(nullable = false)
-    private String explanation;
+    private String explaination;
 
+    @Column(nullable = false)
+    private String category;
     @Column(nullable = false)
     private String imgUrl;
 
@@ -62,25 +62,31 @@ public class House extends Timestamped{
     private WishList wishList ;
 
     @Builder
-    private House(String title, int price, String location, String explanation, String imgUrl, int maxNumPeople, int bedNum, int bathNum, String houseCase, User user) {
+    private House(String title, int price, String location, String explaination, String category, String imgUrl, int maxNumPeople, int bedNum, int bathNum, String houseCase, List<Facility> facilities, User user) {
         this.title = title;
         this.price = price;
         this.location = location;
-        this.explanation = explanation;
+        this.explaination = explaination;
+        this.category = category;
         this.imgUrl = imgUrl;
         this.maxNumPeople = maxNumPeople;
         this.bedNum = bedNum;
         this.bathNum = bathNum;
         this.houseCase = houseCase;
+        this.facilities = facilities;
         this.user = user;
     }
+
+
+
 
     public static House of(HouseRequestDto houseRequestDto,User user){
         return House.builder()
                 .title(houseRequestDto.getTitle())
                 .price(houseRequestDto.getPrice())
                 .location(houseRequestDto.getLocation())
-                .explanation(houseRequestDto.getHouseCase())
+                .category(houseRequestDto.getCategory())
+                .explaination(houseRequestDto.getExplaination())
                 .imgUrl(houseRequestDto.getFile().getName())
                 .maxNumPeople(houseRequestDto.getMaxPeople())
                 .bedNum(houseRequestDto.getBedRoom())
