@@ -30,7 +30,7 @@ public class HouseController {
     }
 
     /**
-     * 모든 여행지 조회
+     * 모든 여행지 조회 Controller
      */
     @GetMapping("/houses")
     public List<HouseResponseDto> houses(){
@@ -39,10 +39,18 @@ public class HouseController {
 
 
     /**
-     * 여행지 상세보기
+     * 여행지 상세보기 Controller
      */
     @GetMapping("/houses/{houseId}")
     public HouseResponseDto house(@PathVariable Long houseId){
         return houseService.findHouse(houseId);
+    }
+
+    /**
+     * 여행지 수정 Controller
+     */
+    @PutMapping("/houses/{houseId}")
+    public MessageResponseDto updateHouse(@PathVariable Long houseId, @ModelAttribute HouseRequestDto houseRequestDto){
+        return houseService.update(houseId, houseRequestDto);
     }
 }

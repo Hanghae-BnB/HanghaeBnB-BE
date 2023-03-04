@@ -76,10 +76,6 @@ public class House extends Timestamped{
         this.facilities = facilities;
         this.user = user;
     }
-
-
-
-
     public static House of(HouseRequestDto houseRequestDto,User user){
         return House.builder()
                 .title(houseRequestDto.getTitle())
@@ -95,9 +91,23 @@ public class House extends Timestamped{
                 .user(user)
                 .build();
     }
-
     //연관관계 매세드
     public void addFacilities(List<Facility> facilities){
+        this.facilities = facilities;
+    }
+
+
+    public void update(HouseRequestDto houseRequestDto,List<Facility> facilities) {
+        this.title = houseRequestDto.getTitle();
+        this.price =houseRequestDto.getPrice();
+        this.location = houseRequestDto.getLocation();
+        this.explaination = houseRequestDto.getLocation();
+        this.category = houseRequestDto.getCategory();
+        this.imgUrl = houseRequestDto.getFile().getName();
+        this.maxNumPeople = houseRequestDto.getMaxPeople();
+        this.bedNum = houseRequestDto.getBedRoom();
+        this.bathNum = houseRequestDto.getBathRoom();
+        this.houseCase = houseRequestDto.getHouseCase();
         this.facilities = facilities;
     }
 }
