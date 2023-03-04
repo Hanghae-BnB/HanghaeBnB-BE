@@ -11,6 +11,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -34,5 +35,10 @@ public class UserController {
     @PostMapping("/logout")
     public MessageResponseDto logout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return userService.logout(userDetails.getUser());
+    }
+
+    @PostMapping("/refresh")
+    public MessageResponseDto refresh(HttpServletRequest request, HttpServletResponse response) {
+        return userService.refresh(request, response);
     }
 }
