@@ -1,6 +1,8 @@
 package com.sparta.hanghaebnb.entity;
 
+import com.sparta.hanghaebnb.dto.SignupRequestDto;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,5 +28,12 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    @Builder
+    public User(SignupRequestDto signupRequestDto) {
+        this.username = signupRequestDto.getUsername();
+        this.password = signupRequestDto.getPassword();
+        this.birth = signupRequestDto.getBirth();
+        this.email = signupRequestDto.getEmail();
+    }
 
 }
