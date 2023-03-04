@@ -43,6 +43,9 @@ public class House extends Timestamped{
     @Column(nullable = false)
     private String houseCase;
 
+    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
+    private List<Facility> facilities = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USERS_ID",nullable = false)
     private User user;
