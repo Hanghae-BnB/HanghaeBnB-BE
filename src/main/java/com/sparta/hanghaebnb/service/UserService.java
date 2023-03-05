@@ -1,9 +1,5 @@
 package com.sparta.hanghaebnb.service;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.sparta.hanghaebnb.dto.LoginRequestDto;
 import com.sparta.hanghaebnb.dto.LoginResponseDto;
 import com.sparta.hanghaebnb.dto.MessageResponseDto;
@@ -21,7 +17,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service

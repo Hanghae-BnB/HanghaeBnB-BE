@@ -53,4 +53,12 @@ public class HouseController {
     public MessageResponseDto updateHouse(@PathVariable Long houseId, @ModelAttribute HouseRequestDto houseRequestDto){
         return houseService.update(houseId, houseRequestDto);
     }
+
+    /**
+     * 여행지 삭제 Controller
+     */
+    @DeleteMapping("/houses/{houseId}")
+    public MessageResponseDto removeHouse(@PathVariable Long houseId){
+        return houseService.remove(houseId);
+    }
 }
