@@ -73,4 +73,16 @@ public class HouseService {
         return new MessageResponseDto("수정완료",HttpStatus.OK);
 
     }
+
+    /**
+     * 해당 게시글 삭제 기능(추가 진행 예정)
+     */
+    public MessageResponseDto remove(Long houseId) {
+        House findHouse = houseRepository.findById(houseId).orElseThrow(
+                () -> new IllegalStateException("해당 게시글이 존재하지 않습니다")
+        );
+        
+        houseRepository.delete(findHouse);
+        return new MessageResponseDto("삭제완료",HttpStatus.OK);
+    }
 }
