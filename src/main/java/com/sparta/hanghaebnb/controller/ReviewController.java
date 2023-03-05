@@ -18,7 +18,7 @@ public class ReviewController {
 
     // 리뷰 작성
     @PostMapping("/houses/{houseId}/reviews")  // board_id
-    public ResponseEntity<MessageResponseDto> createReview(@PathVariable Long houseId, @RequestBody ReviewRequestDto reviewRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public MessageResponseDto createReview(@PathVariable Long houseId, @RequestBody ReviewRequestDto reviewRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return reviewService.createReview(houseId, reviewRequestDto, userDetails.getUser());
     }
 

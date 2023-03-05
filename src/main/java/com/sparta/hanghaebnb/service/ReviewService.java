@@ -22,8 +22,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     // 리뷰 생성
-    @Transactional
-    public ResponseEntity<MessageResponseDto> createReview(Long id, ReviewRequestDto reviewRequestDto, User user) {
+    public MessageResponseDto createReview(Long id, ReviewRequestDto reviewRequestDto, User user) {
         // 해당 게시글이 있는지 확인
         Optional<House> house = houseRepository.findById(id);
         if (house.isEmpty()) {
@@ -31,8 +30,7 @@ public class ReviewService {
         } else {
             Review review = new Review(reviewRequestDto, user, house.get());
             reviewRepository.save(review);
-            return ResponseEntity.ok().body(MessageResponseDto.of("리뷰 작성 성공!", HttpStatus.OK));
-
+            return new MessageResponseDto("리뷰 작성 성공!", HttpStatus.OK);
         }
 
     }
