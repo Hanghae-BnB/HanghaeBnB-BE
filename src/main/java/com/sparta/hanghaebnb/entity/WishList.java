@@ -21,6 +21,6 @@ public class WishList {
     private User user ;
 
     @OneToMany(mappedBy = "wishList", cascade = CascadeType.ALL)
-    private List<House> houses = new ArrayList<>();
+    private List<WishListAndHouse> wishListAndHouseList = new ArrayList<>();
 
 }
