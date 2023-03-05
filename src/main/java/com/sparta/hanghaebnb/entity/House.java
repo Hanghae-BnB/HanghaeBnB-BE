@@ -73,14 +73,14 @@ public class House extends Timestamped{
         this.facilities = facilities;
         this.user = user;
     }
-    public static House of(HouseRequestDto houseRequestDto,User user){
+    public static House of(HouseRequestDto houseRequestDto,User user,String imgUrl){
         return House.builder()
                 .title(houseRequestDto.getTitle())
                 .price(houseRequestDto.getPrice())
                 .location(houseRequestDto.getLocation())
                 .category(houseRequestDto.getCategory())
                 .explaination(houseRequestDto.getExplaination())
-                .imgUrl(houseRequestDto.getFile().getName())
+                .imgUrl(imgUrl)
                 .maxNumPeople(houseRequestDto.getMaxPeople())
                 .bedNum(houseRequestDto.getBedRoom())
                 .bathNum(houseRequestDto.getBathRoom())

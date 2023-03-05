@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,14 +26,18 @@ public class HouseService {
 
     private final HouseRepository houseRepository;
     private final FacilityRepository facilityRepository;
-
+    private final S3Uploader s3Uploader;
 
     /**
      * 게시글 작성 기능
      */
-    public MessageResponseDto join(HouseRequestDto houseRequestDto, UserDetailsImpl userDetails) {
+    public MessageResponseDto join(HouseRequestDto houseRequestDto, UserDetailsImpl userDetails) throws IOException {
+        //S3에 이미지 저장하고 URL 받아오기
+        String imgUrl = s3Uploader.upload(houseRequestDto.getFile());
+
         // House Entity 생성
-        House newHouse = House.of(houseRequestDto, userDetails.getUser());
+        House newHouse = House.of(houseRequestDto, userDetails.getUser(),imgUrl);
+        // 편의시설 Entity 생성
         List<Facility> facilities = Arrays.stream(houseRequestDto.getFacilities()).map(f -> new Facility(f, newHouse)).collect(Collectors.toList());
         newHouse.addFacilities(facilities);
         houseRepository.save(newHouse);
