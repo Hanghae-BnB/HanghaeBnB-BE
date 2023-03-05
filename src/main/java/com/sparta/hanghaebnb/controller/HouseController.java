@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -24,7 +25,7 @@ public class HouseController {
      * 여행지 등록 관련 Controller
      */
     @PostMapping("/houses")
-    public MessageResponseDto createHouse(@ModelAttribute HouseRequestDto houseRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public MessageResponseDto createHouse(@ModelAttribute HouseRequestDto houseRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         log.info("houseRequestDto = {}" , houseRequestDto);
         return houseService.join(houseRequestDto,userDetails);
     }
