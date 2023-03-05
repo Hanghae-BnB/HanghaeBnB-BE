@@ -72,4 +72,12 @@ public class HouseController {
         return houseService.categoryHouses(category);
     }
 
+    /**
+     * 검색 기능으로 여행지 조회 Controller
+     */
+    @GetMapping("/house")
+    public List<HouseResponseDto> keywordHouse(@RequestParam("keyword") String keyword){
+        return houseService.keywordHouse(keyword);
+    }
+
 }

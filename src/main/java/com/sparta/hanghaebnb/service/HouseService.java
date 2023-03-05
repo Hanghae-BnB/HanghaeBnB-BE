@@ -98,4 +98,12 @@ public class HouseService {
         List<House> findHouses = houseRepository.findAllByCategoryOrderByCreatedAtDesc(category);
         return findHouses.stream().map(h -> HouseResponseDto.from(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
     }
+
+    /**
+     * 검색 기능으로 여행지 조회
+     */
+    public List<HouseResponseDto> keywordHouse(String keyword) {
+        List<House> findHouses = houseRepository.findAllByTitleContainsOrderByCreatedAtDesc(keyword);
+        return findHouses.stream().map(h -> HouseResponseDto.from(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
+    }
 }
