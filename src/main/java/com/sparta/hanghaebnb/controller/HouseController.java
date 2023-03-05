@@ -21,6 +21,7 @@ import java.util.List;
 public class HouseController {
 
     private final HouseService houseService;
+
     /**
      * 여행지 등록 관련 Controller
      */
@@ -61,5 +62,13 @@ public class HouseController {
     @DeleteMapping("/houses/{houseId}")
     public MessageResponseDto removeHouse(@PathVariable Long houseId){
         return houseService.remove(houseId);
+    }
+
+    /**
+     * 여행지 카테고리별 조회 Controller
+     */
+    @GetMapping("/house")
+    public List<HouseResponseDto> categoryHouse(@RequestParam("category") String category){
+        return houseService.categoryHouses(category);
     }
 }

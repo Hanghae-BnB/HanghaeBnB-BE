@@ -58,6 +58,7 @@ public class WebSecurityConfig {
                 .antMatchers("/actuator/health").permitAll()
                 .antMatchers("/api/users/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/houses").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/house").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/houses/{id}").permitAll()
                 .antMatchers("/swagger-ui/index.html").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
