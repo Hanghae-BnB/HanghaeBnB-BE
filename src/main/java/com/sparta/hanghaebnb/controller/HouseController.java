@@ -3,6 +3,7 @@ package com.sparta.hanghaebnb.controller;
 import com.sparta.hanghaebnb.dto.HouseRequestDto;
 import com.sparta.hanghaebnb.dto.HouseResponseDto;
 import com.sparta.hanghaebnb.dto.MessageResponseDto;
+import com.sparta.hanghaebnb.response.ApiDocumentResponse;
 import com.sparta.hanghaebnb.security.UserDetailsImpl;
 import com.sparta.hanghaebnb.service.HouseService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-
+@ApiDocumentResponse
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")

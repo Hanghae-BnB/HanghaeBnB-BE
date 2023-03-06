@@ -1,12 +1,13 @@
 package com.sparta.hanghaebnb.controller;
 
 import com.sparta.hanghaebnb.dto.MessageResponseDto;
+import com.sparta.hanghaebnb.response.ApiDocumentResponse;
 import com.sparta.hanghaebnb.security.UserDetailsImpl;
 import com.sparta.hanghaebnb.service.WishListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
+@ApiDocumentResponse
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
