@@ -1,8 +1,11 @@
 package com.sparta.hanghaebnb.entity;
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@NoArgsConstructor
 public class WishListAndHouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,4 +19,8 @@ public class WishListAndHouse {
     @JoinColumn(name = "HOUSE_ID",nullable = false)
     private House house;
 
+    public WishListAndHouse (WishList wishList, House house) {
+        this.wishList = wishList;
+        this.house = house;
+    }
 }

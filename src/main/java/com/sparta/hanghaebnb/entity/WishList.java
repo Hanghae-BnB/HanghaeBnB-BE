@@ -1,6 +1,7 @@
 package com.sparta.hanghaebnb.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,5 +23,17 @@ public class WishList {
 
     @OneToMany(mappedBy = "wishList", cascade = CascadeType.ALL)
     private List<WishListAndHouse> wishListAndHouseList = new ArrayList<>();
+
+    @Builder
+    private WishList(User user) {
+        this.user = user;
+
+    }
+
+    public static WishList of(User user) {
+        return WishList.builder()
+                .user(user)
+                .build();
+    }
 
 }
