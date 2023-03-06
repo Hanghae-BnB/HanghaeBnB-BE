@@ -19,4 +19,10 @@ public class WishListController {
     public MessageResponseDto addWishList(@PathVariable Long houseId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return wishListService.addWishList(houseId, userDetails.getUser());
     }
+
+    @DeleteMapping ("/houses/{houseId}/wishList")
+    public MessageResponseDto deleteWishList(@PathVariable Long houseId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return wishListService.deleteWishList(houseId, userDetails.getUser());
+    }
+
 }
