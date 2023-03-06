@@ -3,6 +3,8 @@ package com.sparta.hanghaebnb.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.sparta.hanghaebnb.exception.CustomException;
+import com.sparta.hanghaebnb.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +31,7 @@ public class S3Uploader {
         //MultipartFile을 전달 받고
         //S3에 Multipartfile 타입은 전송이 안됩니다.
         File uploadFile = convert(multipartFile)
-                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.Transition_Failed));
         return upload(uploadFile);
     }
 

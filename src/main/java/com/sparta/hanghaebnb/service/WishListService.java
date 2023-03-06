@@ -5,6 +5,8 @@ import com.sparta.hanghaebnb.entity.House;
 import com.sparta.hanghaebnb.entity.User;
 import com.sparta.hanghaebnb.entity.WishList;
 import com.sparta.hanghaebnb.entity.WishListAndHouse;
+import com.sparta.hanghaebnb.exception.CustomException;
+import com.sparta.hanghaebnb.exception.ErrorCode;
 import com.sparta.hanghaebnb.repository.HouseRepository;
 import com.sparta.hanghaebnb.repository.UserRepository;
 import com.sparta.hanghaebnb.repository.WishListAndHouseRepository;
@@ -29,7 +31,7 @@ public class WishListService {
         // 1) 위시리스트에 넣으려는 숙소가 없는 경우
         Optional<House> house = houseRepository.findById(id);
         if (house.isEmpty()) {
-            throw new IllegalArgumentException("해당 숙소가 존재하지 않습니다.");
+            throw new CustomException(ErrorCode.NOT_FOUND_HOUSE);
         }
 
         Optional<WishList> wishList = wishListRepository.findByUser(user);
@@ -41,7 +43,7 @@ public class WishListService {
         // 2) 이미 위시리스트에 있는 경우
         Optional< WishListAndHouse> wishListAndHouse = wishListAndHouseRepository.findByWishListAndHouse(wishList.get(), house.get());
         if (wishListAndHouse.isPresent()) {
-            throw new IllegalArgumentException("이미 위시리스트에 추가하셨습니다.");
+            throw new CustomException(ErrorCode.ALREADY_EXISTS_WISHLIST);
         }
 
         wishListAndHouseRepository.save(new WishListAndHouse(wishList.get(), house.get()));
@@ -54,17 +56,17 @@ public class WishListService {
 
         Optional<House> house = houseRepository.findById(id);
         if (house.isEmpty()) {
-            throw new IllegalArgumentException("해당 숙소가 존재하지 않습니다.");
+            throw new CustomException(ErrorCode.NOT_FOUND_HOUSE);
         }
 
         Optional<WishList> wishList = wishListRepository.findByUser(user);
         if (wishList.isEmpty()) {
-            throw new IllegalArgumentException("해당 위시리스트가 존재하지 않습니다.");
+            throw new CustomException(ErrorCode.NOT_FOUND_WISHLIST);
         }
 
         Optional< WishListAndHouse> wishListAndHouse = wishListAndHouseRepository.findByWishListAndHouse(wishList.get(), house.get());
         if (wishListAndHouse.isEmpty()) {
-            throw new IllegalArgumentException("추가된 항목이 없습니다.");
+            throw new CustomException(ErrorCode.ALREADY_DELETED_WISHLIST);
         }
 
         wishListAndHouseRepository.delete(wishListAndHouse.get());

@@ -5,6 +5,8 @@ import com.sparta.hanghaebnb.dto.HouseResponseDto;
 import com.sparta.hanghaebnb.dto.MessageResponseDto;
 import com.sparta.hanghaebnb.entity.Facility;
 import com.sparta.hanghaebnb.entity.House;
+import com.sparta.hanghaebnb.exception.CustomException;
+import com.sparta.hanghaebnb.exception.ErrorCode;
 import com.sparta.hanghaebnb.repository.FacilityRepository;
 import com.sparta.hanghaebnb.repository.HouseRepository;
 import com.sparta.hanghaebnb.security.UserDetailsImpl;
@@ -59,7 +61,7 @@ public class HouseService {
     @Transactional(readOnly = true)
     public HouseResponseDto findHouse(Long houseId) {
         House findHouse = houseRepository.findById(houseId).orElseThrow(
-                () -> new IllegalStateException("해당 게시글이 존재하지 않습니다")
+                () -> new CustomException(ErrorCode.NOT_FOUND_HOUSE)
         );
         return HouseResponseDto.from(findHouse,10,10);
     }
@@ -69,7 +71,7 @@ public class HouseService {
      */
     public MessageResponseDto update(Long houseId, HouseRequestDto houseRequestDto) {
         House findHouse = houseRepository.findById(houseId).orElseThrow(
-                () -> new IllegalStateException("해당 게시글이 존재하지 않습니다")
+                () -> new CustomException(ErrorCode.NOT_FOUND_HOUSE)
         );
         facilityRepository.deleteAllByHouseId(houseId);
         List<Facility> facilities = Arrays.stream(houseRequestDto.getFacilities()).map(f -> new Facility(f, findHouse)).collect(Collectors.toList());
@@ -84,7 +86,7 @@ public class HouseService {
      */
     public MessageResponseDto remove(Long houseId) {
         House findHouse = houseRepository.findById(houseId).orElseThrow(
-                () -> new IllegalStateException("해당 게시글이 존재하지 않습니다")
+                () -> new CustomException(ErrorCode.NOT_FOUND_HOUSE)
         );
         
         houseRepository.delete(findHouse);

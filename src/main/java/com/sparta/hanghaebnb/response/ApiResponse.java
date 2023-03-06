@@ -16,4 +16,11 @@ public class ApiResponse {
                 .statusCode(HttpStatus.OK)
                 .build();
     }
+
+    public static MessageResponseDto of(String msg, HttpStatus status) {
+        return MessageResponseDto.builder()
+                .msg(msg)
+                .statusCode(status)
+                .build();
+    }
 }

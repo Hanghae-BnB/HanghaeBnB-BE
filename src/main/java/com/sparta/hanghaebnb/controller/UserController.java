@@ -40,6 +40,6 @@ public class UserController {
 
     @PostMapping("/refresh")
     public MessageResponseDto refresh(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return userService.refresh(request, response,userDetails.getUser());
+        return userService.refresh(request, response, userDetails.getUser());
     }
 }
