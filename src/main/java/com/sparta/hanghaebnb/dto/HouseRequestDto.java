@@ -14,7 +14,6 @@ public class HouseRequestDto {
     private int price;
     private String explaination;
     private String location;
-    private String category;
     private int maxPeople;
     private String houseCase;
     private int bedRoom;

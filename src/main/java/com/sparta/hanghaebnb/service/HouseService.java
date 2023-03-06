@@ -94,8 +94,8 @@ public class HouseService {
     /**
      * 카테고리별 여행지 조회
      */
-    public List<HouseResponseDto> categoryHouses(String category) {
-        List<House> findHouses = houseRepository.findAllByCategoryOrderByCreatedAtDesc(category);
+    public List<HouseResponseDto> categoryHouses(String houseCase) {
+        List<House> findHouses = houseRepository.findAllByHouseCaseOrderByCreatedAtDesc(houseCase);
         return findHouses.stream().map(h -> HouseResponseDto.from(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
     }
 
