@@ -68,9 +68,9 @@ public class HouseController {
     /**
      * 여행지 카테고리별 조회 Controller
      */
-    @GetMapping("/houses/category/{category}")
-    public List<HouseResponseDto> categoryHouse(@PathVariable String category){
-        return houseService.categoryHouses(category);
+    @GetMapping("/houses/houseCase/{houseCase}")
+    public List<HouseResponseDto> categoryHouse(@PathVariable String houseCase){
+        return houseService.categoryHouses(houseCase);
     }
 
     /**

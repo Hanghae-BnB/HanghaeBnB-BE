@@ -31,8 +31,6 @@ public class House extends Timestamped{
     private String explaination;
 
     @Column(nullable = false)
-    private String category;
-    @Column(nullable = false)
     private String imgUrl;
 
     @Column(nullable = false)
@@ -61,12 +59,11 @@ public class House extends Timestamped{
     private List<WishListAndHouse> wishListAndHouseList = new ArrayList<>();
 
     @Builder
-    private House(String title, int price, String location, String explaination, String category, String imgUrl, int maxNumPeople, int bedNum, int bathNum, String houseCase, List<Facility> facilities, User user) {
+    private House(String title, int price, String location, String explaination, String imgUrl, int maxNumPeople, int bedNum, int bathNum, String houseCase, List<Facility> facilities, User user) {
         this.title = title;
         this.price = price;
         this.location = location;
         this.explaination = explaination;
-        this.category = category;
         this.imgUrl = imgUrl;
         this.maxNumPeople = maxNumPeople;
         this.bedNum = bedNum;
@@ -80,7 +77,6 @@ public class House extends Timestamped{
                 .title(houseRequestDto.getTitle())
                 .price(houseRequestDto.getPrice())
                 .location(houseRequestDto.getLocation())
-                .category(houseRequestDto.getCategory())
                 .explaination(houseRequestDto.getExplaination())
                 .imgUrl(imgUrl)
                 .maxNumPeople(houseRequestDto.getMaxPeople())
@@ -101,7 +97,6 @@ public class House extends Timestamped{
         this.price =houseRequestDto.getPrice();
         this.location = houseRequestDto.getLocation();
         this.explaination = houseRequestDto.getLocation();
-        this.category = houseRequestDto.getCategory();
         this.imgUrl = houseRequestDto.getFile().getName();
         this.maxNumPeople = houseRequestDto.getMaxPeople();
         this.bedNum = houseRequestDto.getBedRoom();
