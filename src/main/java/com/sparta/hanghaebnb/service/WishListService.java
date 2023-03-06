@@ -45,11 +45,33 @@ public class WishListService {
         }
 
         wishListAndHouseRepository.save(new WishListAndHouse(wishList.get(), house.get()));
-//        wishListRepository.save(WishList.of(user));
         return new MessageResponseDto("위시리스트 작성 성공!", HttpStatus.OK);
 
+    }
+
+    @Transactional
+    public MessageResponseDto deleteWishList(Long id, User user) {
+
+        Optional<House> house = houseRepository.findById(id);
+        if (house.isEmpty()) {
+            throw new IllegalArgumentException("해당 숙소가 존재하지 않습니다.");
+        }
+
+        Optional<WishList> wishList = wishListRepository.findByUser(user);
+        if (wishList.isEmpty()) {
+            throw new IllegalArgumentException("해당 위시리스트가 존재하지 않습니다.");
+        }
+
+        Optional< WishListAndHouse> wishListAndHouse = wishListAndHouseRepository.findByWishListAndHouse(wishList.get(), house.get());
+        if (wishListAndHouse.isEmpty()) {
+            throw new IllegalArgumentException("추가된 항목이 없습니다.");
+        }
+
+        wishListAndHouseRepository.delete(wishListAndHouse.get());
+        return new MessageResponseDto("위시리스트 삭제 성공!", HttpStatus.OK);
 
     }
+
 
 
 }
