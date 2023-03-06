@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -50,19 +51,12 @@ public class UserService {
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
         }
-        RefreshToken refreshToken = RefreshToken.builder()
-                .token(jwtUtil.createRT(user.getEmail()))
-                .user(user)
-                .build();
+        RefreshToken refreshToken = RefreshToken.of(jwtUtil.createRT(user.getEmail()),user);
         Optional<RefreshToken> found = refreshTokenRepository.findByUser(user);
         //리프레시 토큰 발급
         String rt = jwtUtil.createRT(user.getEmail());
-
-        if (found.isEmpty()) {
-            refreshTokenRepository.save(refreshToken);
-        } else {
-            found.get().updateRefreshToken(rt);
-        }
+        //refreshToken이 DB에 있는지 확인 후 없으면 저장, 있으면 수정
+        isSavedRefreshToken(refreshToken, found, rt);
 
         //액세스 토큰 response
         response.addHeader(JwtUtil.AT_HEADER, jwtUtil.createAT(user.getEmail()));
@@ -71,15 +65,19 @@ public class UserService {
         return LoginResponseDto.builder().username(user.getUsername()).build();
     }
 
-    public MessageResponseDto logout(User user) {
-        User userCheck = userRepository.findByEmail(user.getEmail()).orElseThrow(
-                () -> new IllegalArgumentException("회원이 존재하지 않습니다.")
-        );
 
+    @Transactional
+    public MessageResponseDto logout(User user,HttpServletRequest request) {
+        RefreshToken refreshToken = refreshTokenRepository.findByUser(user).orElseThrow(
+                () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+        );
+        if (!Objects.equals(refreshToken.getToken(), request.getHeader("RT_Authorization"))) {
+            throw new IllegalArgumentException("리프레시 토큰이 유효하지 않습니다.");
+        }
+        refreshTokenRepository.deleteByToken(request.getHeader("RT_Authorization"));
         return apiResponse.success("로그아웃 성공");
     }
-    @Transactional
-    public MessageResponseDto refresh(HttpServletRequest request, HttpServletResponse response) {
+    public MessageResponseDto refresh(HttpServletRequest request, HttpServletResponse response, User user) {
         String requestRT = request.getHeader(JwtUtil.RT_HEADER);
         Optional<RefreshToken> found = refreshTokenRepository.findByToken(requestRT);
         if (found.isEmpty()) {
@@ -87,5 +85,13 @@ public class UserService {
         }
         response.addHeader(JwtUtil.AT_HEADER, jwtUtil.createAT(found.get().getUser().getEmail()));
         return apiResponse.success("토큰 발급을 성공했습니다.");
+    }
+
+    private void isSavedRefreshToken(RefreshToken refreshToken, Optional<RefreshToken> found, String rt) {
+        if (found.isEmpty()) {
+            refreshTokenRepository.save(refreshToken);
+        } else {
+            found.get().updateRefreshToken(rt);
+        }
     }
 }
