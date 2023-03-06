@@ -2,6 +2,7 @@ package com.sparta.hanghaebnb.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.hanghaebnb.dto.MessageResponseDto;
+import com.sparta.hanghaebnb.exception.ErrorCode;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,5 +58,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             log.error(e.getMessage());
         }
     }
+
 
 }

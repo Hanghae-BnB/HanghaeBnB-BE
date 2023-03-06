@@ -1,6 +1,5 @@
 package com.sparta.hanghaebnb.config;
 
-import com.sparta.hanghaebnb.exception.CustomAuthenticationEntryPoint;
 import com.sparta.hanghaebnb.jwt.JwtAuthFilter;
 import com.sparta.hanghaebnb.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -65,7 +64,6 @@ public class WebSecurityConfig {
                 .antMatchers("/swagger-ui/index.html").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
-                .and().exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 // JWT 인증/인가를 사용하기 위한 설정
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
