@@ -4,6 +4,8 @@ import com.sparta.hanghaebnb.entity.House;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.text.DecimalFormat;
+
 @Getter
 public class HouseResponseDto {
 
@@ -16,7 +18,7 @@ public class HouseResponseDto {
     // 하우스 위치
     private String location;
     // 숙박료
-    private int price;
+    private String price;
     // 하우스이미지
     private String imageUrl;
     //좋아요 수
@@ -25,7 +27,7 @@ public class HouseResponseDto {
     private int reviewNum;
 
     @Builder
-    public HouseResponseDto(Long id, String userNickname, String title, String location, int price, String imageUrl, int likesNum, int reviewNum) {
+    public HouseResponseDto(Long id, String userNickname, String title, String location, String price, String imageUrl, int likesNum, int reviewNum) {
         this.id = id;
         this.userNickname = userNickname;
         this.title = title;
@@ -37,12 +39,13 @@ public class HouseResponseDto {
     }
 
     public static HouseResponseDto from(House house, int likesNum , int reviewNum){
+        DecimalFormat priceFormat = new DecimalFormat("###,###");
         return HouseResponseDto.builder()
                 .id(house.getId())
                 .userNickname(house.getUser().getUsername())
                 .title(house.getTitle())
                 .location(house.getLocation())
-                .price(house.getPrice())
+                .price(priceFormat.format(house.getPrice()))
                 .imageUrl(house.getImgUrl())
                 .likesNum(likesNum)
                 .reviewNum(reviewNum)
