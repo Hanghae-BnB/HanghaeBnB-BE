@@ -50,7 +50,7 @@ public class HouseService {
     @Transactional(readOnly = true)
     public List<HouseResponseDto> findAllHouse() {
         List<House> houses = houseRepository.findAllByOrderByCreatedAtDesc();
-        return houses.stream().map( h -> HouseResponseDto.from(h,10 ,10)).collect(Collectors.toList());
+        return houses.stream().map(h -> HouseResponseDto.from(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
     }
 
     /**
@@ -89,5 +89,13 @@ public class HouseService {
         
         houseRepository.delete(findHouse);
         return new MessageResponseDto("삭제완료",HttpStatus.OK);
+    }
+
+    /**
+     * 카테고리별 여행지 조회
+     */
+    public List<HouseResponseDto> categoryHouses(String category) {
+        List<House> findHouses = houseRepository.findAllByCategoryOrderByCreatedAtDesc(category);
+        return findHouses.stream().map(h -> HouseResponseDto.from(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
     }
 }
