@@ -32,4 +32,11 @@ public class RefreshToken {
     public void updateRefreshToken(String newToken) {
         this.token = newToken;
     }
+
+    public static RefreshToken of(String token, User user) {
+        return RefreshToken.builder()
+                .user(user)
+                .token(token)
+                .build();
+    }
 }
