@@ -1,6 +1,6 @@
 package com.sparta.hanghaebnb.exception;
 
-import com.sparta.hanghaebnb.dto.MessageResponseDto;
+import com.sparta.hanghaebnb.dto.response.MessageResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,9 +1,9 @@
 package com.sparta.hanghaebnb.service;
 
-import com.sparta.hanghaebnb.dto.LoginRequestDto;
-import com.sparta.hanghaebnb.dto.LoginResponseDto;
-import com.sparta.hanghaebnb.dto.MessageResponseDto;
-import com.sparta.hanghaebnb.dto.SignupRequestDto;
+import com.sparta.hanghaebnb.dto.request.LoginRequestDto;
+import com.sparta.hanghaebnb.dto.response.LoginResponseDto;
+import com.sparta.hanghaebnb.dto.response.MessageResponseDto;
+import com.sparta.hanghaebnb.dto.request.SignupRequestDto;
 import com.sparta.hanghaebnb.entity.RefreshToken;
 import com.sparta.hanghaebnb.entity.User;
 import com.sparta.hanghaebnb.exception.CustomException;

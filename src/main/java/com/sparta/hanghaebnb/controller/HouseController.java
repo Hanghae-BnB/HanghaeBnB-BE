@@ -1,14 +1,13 @@
 package com.sparta.hanghaebnb.controller;
 
-import com.sparta.hanghaebnb.dto.HouseRequestDto;
-import com.sparta.hanghaebnb.dto.HouseResponseDto;
-import com.sparta.hanghaebnb.dto.MessageResponseDto;
+import com.sparta.hanghaebnb.dto.request.HouseRequestDto;
+import com.sparta.hanghaebnb.dto.response.HouseResponseDto;
+import com.sparta.hanghaebnb.dto.response.MessageResponseDto;
 import com.sparta.hanghaebnb.response.ApiDocumentResponse;
 import com.sparta.hanghaebnb.security.UserDetailsImpl;
 import com.sparta.hanghaebnb.service.HouseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 

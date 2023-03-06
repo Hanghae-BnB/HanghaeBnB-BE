@@ -1,12 +1,11 @@
 package com.sparta.hanghaebnb.controller;
 
-import com.sparta.hanghaebnb.dto.MessageResponseDto;
-import com.sparta.hanghaebnb.dto.ReviewRequestDto;
+import com.sparta.hanghaebnb.dto.response.MessageResponseDto;
+import com.sparta.hanghaebnb.dto.request.ReviewRequestDto;
 import com.sparta.hanghaebnb.response.ApiDocumentResponse;
 import com.sparta.hanghaebnb.security.UserDetailsImpl;
 import com.sparta.hanghaebnb.service.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 @ApiDocumentResponse

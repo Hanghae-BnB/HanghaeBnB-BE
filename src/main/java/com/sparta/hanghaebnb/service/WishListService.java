@@ -1,6 +1,6 @@
 package com.sparta.hanghaebnb.service;
 
-import com.sparta.hanghaebnb.dto.MessageResponseDto;
+import com.sparta.hanghaebnb.dto.response.MessageResponseDto;
 import com.sparta.hanghaebnb.entity.House;
 import com.sparta.hanghaebnb.entity.User;
 import com.sparta.hanghaebnb.entity.WishList;

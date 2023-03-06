@@ -1,6 +1,6 @@
 package com.sparta.hanghaebnb.entity;
 
-import com.sparta.hanghaebnb.dto.HouseRequestDto;
+import com.sparta.hanghaebnb.dto.request.HouseRequestDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,8 +1,8 @@
 package com.sparta.hanghaebnb.service;
 
-import com.sparta.hanghaebnb.dto.HouseRequestDto;
-import com.sparta.hanghaebnb.dto.HouseResponseDto;
-import com.sparta.hanghaebnb.dto.MessageResponseDto;
+import com.sparta.hanghaebnb.dto.request.HouseRequestDto;
+import com.sparta.hanghaebnb.dto.response.HouseResponseDto;
+import com.sparta.hanghaebnb.dto.response.MessageResponseDto;
 import com.sparta.hanghaebnb.entity.Facility;
 import com.sparta.hanghaebnb.entity.House;
 import com.sparta.hanghaebnb.exception.CustomException;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,7 +51,9 @@ public class HouseService {
     @Transactional(readOnly = true)
     public List<HouseResponseDto> findAllHouse() {
         List<House> houses = houseRepository.findAllByOrderByCreatedAtDesc();
-        return houses.stream().map(h -> HouseResponseDto.from(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
+        return houses.stream()
+                .map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100)))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -63,7 +64,7 @@ public class HouseService {
         House findHouse = houseRepository.findById(houseId).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_HOUSE)
         );
-        return HouseResponseDto.from(findHouse,10,10);
+        return HouseResponseDto.of(findHouse,10,10);
     }
 
     /**
@@ -98,7 +99,7 @@ public class HouseService {
      */
     public List<HouseResponseDto> categoryHouses(String houseCase) {
         List<House> findHouses = houseRepository.findAllByHouseCaseOrderByCreatedAtDesc(houseCase);
-        return findHouses.stream().map(h -> HouseResponseDto.from(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
+        return findHouses.stream().map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
     }
 
     /**
@@ -106,6 +107,6 @@ public class HouseService {
      */
     public List<HouseResponseDto> keywordHouse(String keyword) {
         List<House> findHouses = houseRepository.findAllByTitleContainsOrderByCreatedAtDesc(keyword);
-        return findHouses.stream().map(h -> HouseResponseDto.from(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
+        return findHouses.stream().map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
     }
 }
