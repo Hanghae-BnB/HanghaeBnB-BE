@@ -5,6 +5,8 @@ import com.sparta.hanghaebnb.dto.ReviewRequestDto;
 import com.sparta.hanghaebnb.entity.House;
 import com.sparta.hanghaebnb.entity.Review;
 import com.sparta.hanghaebnb.entity.User;
+import com.sparta.hanghaebnb.exception.CustomException;
+import com.sparta.hanghaebnb.exception.ErrorCode;
 import com.sparta.hanghaebnb.repository.HouseRepository;
 import com.sparta.hanghaebnb.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +28,7 @@ public class ReviewService {
         // 해당 게시글이 있는지 확인
         Optional<House> house = houseRepository.findById(id);
         if (house.isEmpty()) {
-            throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+            throw new CustomException(ErrorCode.NOT_FOUND_HOUSE);
         } else {
             Review review = new Review(reviewRequestDto, user, house.get());
             reviewRepository.save(review);

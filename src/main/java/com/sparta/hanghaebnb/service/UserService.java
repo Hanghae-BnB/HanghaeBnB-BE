@@ -6,6 +6,8 @@ import com.sparta.hanghaebnb.dto.MessageResponseDto;
 import com.sparta.hanghaebnb.dto.SignupRequestDto;
 import com.sparta.hanghaebnb.entity.RefreshToken;
 import com.sparta.hanghaebnb.entity.User;
+import com.sparta.hanghaebnb.exception.CustomException;
+import com.sparta.hanghaebnb.exception.ErrorCode;
 import com.sparta.hanghaebnb.jwt.JwtUtil;
 import com.sparta.hanghaebnb.repository.RefreshTokenRepository;
 import com.sparta.hanghaebnb.repository.UserRepository;
@@ -35,7 +37,7 @@ public class UserService {
         String password = passwordEncoder.encode(signupRequestDto.getPassword());
         Optional<User> found = userRepository.findByEmail(email);
         if (found.isPresent()) {
-            throw new IllegalArgumentException("중복된 이메일입니다.");
+            throw new CustomException(ErrorCode.DUPLICATED_EMAIL);
         }
         User user = User.of(username, password, birth, email);
         userRepository.save(user);
@@ -46,10 +48,10 @@ public class UserService {
         String email = loginRequestDto.getEmail();
         String password = loginRequestDto.getPassword();
         User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new IllegalArgumentException("회원을 찾을 수 없습니다.")
+                () -> new CustomException(ErrorCode.NOT_FOUND_USER)
         );
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
+            throw new CustomException(ErrorCode.UNMATCHED_PASSWORD);
         }
         RefreshToken refreshToken = RefreshToken.of(jwtUtil.createRT(user.getEmail()),user);
         Optional<RefreshToken> found = refreshTokenRepository.findByUser(user);
@@ -69,10 +71,10 @@ public class UserService {
     @Transactional
     public MessageResponseDto logout(User user,HttpServletRequest request) {
         RefreshToken refreshToken = refreshTokenRepository.findByUser(user).orElseThrow(
-                () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+                () -> new CustomException(ErrorCode.NOT_FOUND_USER)
         );
         if (!Objects.equals(refreshToken.getToken(), request.getHeader("RT_Authorization"))) {
-            throw new IllegalArgumentException("리프레시 토큰이 유효하지 않습니다.");
+            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
         refreshTokenRepository.deleteByToken(request.getHeader("RT_Authorization"));
         return apiResponse.success("로그아웃 성공");
@@ -81,7 +83,7 @@ public class UserService {
         String requestRT = request.getHeader(JwtUtil.RT_HEADER);
         Optional<RefreshToken> found = refreshTokenRepository.findByToken(requestRT);
         if (found.isEmpty()) {
-            throw new IllegalArgumentException("토큰이 존재하지 않습니다.");
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
         }
         response.addHeader(JwtUtil.AT_HEADER, jwtUtil.createAT(found.get().getUser().getEmail()));
         return apiResponse.success("토큰 발급을 성공했습니다.");

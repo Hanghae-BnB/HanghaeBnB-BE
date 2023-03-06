@@ -1,5 +1,6 @@
 package com.sparta.hanghaebnb.config;
 
+import com.sparta.hanghaebnb.exception.CustomAuthenticationEntryPoint;
 import com.sparta.hanghaebnb.jwt.JwtAuthFilter;
 import com.sparta.hanghaebnb.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,7 @@ public class WebSecurityConfig {
         // 기본 설정인 Session 방식은 사용하지 않고 JWT 방식을 사용하기 위한 설정
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        Object filter;
         http.authorizeRequests().antMatchers( "/v3/api-docs",
                         "/v3/api-docs/**",
                         "/swagger-ui.html",
@@ -63,8 +65,10 @@ public class WebSecurityConfig {
                 .antMatchers("/swagger-ui/index.html").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
+                .and().exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 // JWT 인증/인가를 사용하기 위한 설정
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+
 // 이 설정을 해주지 않으면 밑의 corsConfigurationSource가 적용되지 않습니다!
         http.cors();
 
