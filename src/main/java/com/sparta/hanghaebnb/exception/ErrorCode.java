@@ -11,17 +11,18 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     // 400 Bad Request
-    AUTHORIZATION(HttpStatus.BAD_REQUEST, "권한이 없습니다."),
-    INVALID_TOKEN(HttpStatus.BAD_REQUEST, "유효한 토큰이 아닙니다."),
-    INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "리프레시 토큰이 유효하지 않습니다."),
-    DUPLICATED_EMAIL(HttpStatus.BAD_REQUEST, "중복된 이메일입니다."),
-    DUPLICATED_USER(HttpStatus.BAD_REQUEST, "중복된 가입정보가 있습니다."),
-    DUPLICATED_NICKNAME(HttpStatus.BAD_REQUEST, "중복된 닉네임이 있습니다."),
-    UNMATCHED_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
-
     ALREADY_EXISTS_WISHLIST(HttpStatus.BAD_REQUEST, "이미 위시리스트에 추가하셨습니다"),
     ALREADY_EXISTS_REVIEW(HttpStatus.BAD_REQUEST, "이미 리뷰를 작성하셨습니다."),
-    TRANSITION_Failed(HttpStatus.BAD_REQUEST, "MultipartFile -> File로 전환이 실패했습니다."),
+    TRANSITION_FAILED(HttpStatus.BAD_REQUEST, "MultipartFile -> File로 전환이 실패했습니다."),
+
+    // 401 Unauthorized
+    AUTHORIZATION(HttpStatus.UNAUTHORIZED, "권한이 없습니다."),
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "유효한 토큰이 아닙니다."),
+    INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 유효하지 않습니다."),
+    DUPLICATED_EMAIL(HttpStatus.UNAUTHORIZED, "중복된 이메일입니다."),
+    DUPLICATED_USER(HttpStatus.UNAUTHORIZED, "중복된 가입정보가 있습니다."),
+    DUPLICATED_NICKNAME(HttpStatus.UNAUTHORIZED, "중복된 닉네임이 있습니다."),
+    UNMATCHED_PASSWORD(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다."),
 
 
 
