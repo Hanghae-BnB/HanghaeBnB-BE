@@ -31,7 +31,7 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<WishListAndHouse> wishListAndHouseList = new ArrayList<>();
+    private List<Wish> wishList = new ArrayList<>();
 
 
     @Builder

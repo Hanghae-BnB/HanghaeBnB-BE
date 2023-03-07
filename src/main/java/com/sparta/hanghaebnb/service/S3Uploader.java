@@ -31,7 +31,7 @@ public class S3Uploader {
         //MultipartFile을 전달 받고
         //S3에 Multipartfile 타입은 전송이 안됩니다.
         File uploadFile = convert(multipartFile)
-                .orElseThrow(() -> new CustomException(ErrorCode.Transition_Failed));
+                .orElseThrow(() -> new CustomException(ErrorCode.TRANSITION_Failed));
         return upload(uploadFile);
     }
 

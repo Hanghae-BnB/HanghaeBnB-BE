@@ -20,7 +20,8 @@ public enum ErrorCode {
     UNMATCHED_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
 
     ALREADY_EXISTS_WISHLIST(HttpStatus.BAD_REQUEST, "이미 위시리스트에 추가하셨습니다"),
-    Transition_Failed(HttpStatus.BAD_REQUEST, "MultipartFile -> File로 전환이 실패했습니다."),
+    ALREADY_EXISTS_REVIEW(HttpStatus.BAD_REQUEST, "이미 리뷰를 작성하셨습니다."),
+    TRANSITION_Failed(HttpStatus.BAD_REQUEST, "MultipartFile -> File로 전환이 실패했습니다."),
 
 
 
@@ -31,7 +32,7 @@ public enum ErrorCode {
 
     NOT_FOUND_TOKEN(HttpStatus.NOT_FOUND, "토큰을 찾을 수 없습니다."),
     ALREADY_DELETED_WISHLIST(HttpStatus.NOT_FOUND, "이미 삭제된 위시리스트입니다."),
-    NOT_FOUND_WISHLIST(HttpStatus.NOT_FOUND, "해당 위시리스타가 존재하지 않습니다.");
+    NOT_FOUND_WISHLIST(HttpStatus.NOT_FOUND, "해당 위시리스트가 존재하지 않습니다.");
 
 
 
