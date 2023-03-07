@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity(name = "users")
@@ -26,6 +28,9 @@ public class User {
 
     @Column(nullable = false)
     private String email;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<WishListAndHouse> wishListAndHouseList = new ArrayList<>();
 
 
     @Builder
