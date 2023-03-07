@@ -67,7 +67,6 @@ public class UserService {
         return LoginResponseDto.builder().username(user.getUsername()).build();
     }
 
-
     @Transactional
     public MessageResponseDto logout(User user, HttpServletRequest request) {
         RefreshToken refreshToken = refreshTokenRepository.findByUser(user).orElseThrow(
@@ -78,16 +77,6 @@ public class UserService {
         }
         refreshTokenRepository.deleteByToken(request.getHeader("RT_Authorization"));
         return apiResponse.success("로그아웃 성공");
-    }
-
-    public MessageResponseDto refresh(HttpServletRequest request, HttpServletResponse response) {
-        String requestRT = request.getHeader(JwtUtil.RT_HEADER);
-        Optional<RefreshToken> found = refreshTokenRepository.findByToken(requestRT);
-        if (found.isEmpty()) {
-            throw new CustomException(ErrorCode.INVALID_TOKEN);
-        }
-        response.addHeader(JwtUtil.AT_HEADER, jwtUtil.createAT(found.get().getUser().getEmail()));
-        return apiResponse.success("토큰 발급을 성공했습니다.");
     }
 
     private void isSavedRefreshToken(RefreshToken refreshToken, Optional<RefreshToken> found, String rt) {
