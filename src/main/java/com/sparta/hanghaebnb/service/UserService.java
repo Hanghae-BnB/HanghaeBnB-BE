@@ -80,7 +80,7 @@ public class UserService {
         return apiResponse.success("로그아웃 성공");
     }
 
-    public MessageResponseDto refresh(HttpServletRequest request, HttpServletResponse response, User user) {
+    public MessageResponseDto refresh(HttpServletRequest request, HttpServletResponse response) {
         String requestRT = request.getHeader(JwtUtil.RT_HEADER);
         Optional<RefreshToken> found = refreshTokenRepository.findByToken(requestRT);
         if (found.isEmpty()) {

@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Optional;
 
 @Getter
 @Entity
@@ -20,7 +19,7 @@ public class RefreshToken {
     private String token;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USERS_ID",nullable = false)
+    @JoinColumn(name = "USERS_ID", nullable = false)
     private User user;
 
     @Builder
