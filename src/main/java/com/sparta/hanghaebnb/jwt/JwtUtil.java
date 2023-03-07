@@ -52,6 +52,13 @@ public class JwtUtil {
         }
         return null;
     }
+    public String resolveRefreshToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(RT_HEADER);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
 
     // 토큰 생성
     public String createAT(String username) {
