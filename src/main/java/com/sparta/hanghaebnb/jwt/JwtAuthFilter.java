@@ -27,10 +27,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String token = jwtUtil.resolveToken(request);
+        String refresh = jwtUtil.resolveRefreshToken(request);
 
-        if(token != null) {
-            if(!jwtUtil.validateToken(token)){
+        if (token != null && refresh != null) {
+            if (!jwtUtil.validateToken(token)) {
                 jwtExceptionHandler(response, "Token Error", HttpStatus.UNAUTHORIZED);
+                return;
+            }
+            if(!jwtUtil.validateToken(refresh)){
+                jwtExceptionHandler(response, "refreshToken Error", HttpStatus.UNAUTHORIZED);
                 return;
             }
             Claims info = jwtUtil.getUserInfoFromToken(token);
