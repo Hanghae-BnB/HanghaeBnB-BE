@@ -8,7 +8,11 @@ public class LoginResponseDto {
     private String username;
 
     @Builder
-    public LoginResponseDto(String username) {
+    private LoginResponseDto(String username) {
         this.username = username;
+    }
+
+    public static LoginResponseDto of(String username) {
+        return builder().username(username).build();
     }
 }
