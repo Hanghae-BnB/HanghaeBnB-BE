@@ -26,13 +26,13 @@ public class HouseRequestDto {
     @Min(0) @Max(50)
     private int maxPeople;
     private String houseCase;
-    @Max(4)
+    @Min(0) @Max(4)
     private int bedRoom;
-    @Max(4)
+    @Min(0) @Max(4)
     private int bathRoom;
     @NotNull
     private String[] facilities ;
-    @NotNull
+
     private MultipartFile file;
 
 }

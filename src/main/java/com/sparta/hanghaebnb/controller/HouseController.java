@@ -28,7 +28,7 @@ public class HouseController {
      * 여행지 등록 관련 Controller
      */
     @PostMapping("/houses")
-    public MessageResponseDto createHouse(@Valid @ModelAttribute HouseRequestDto houseRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails, BindingResult result) throws IOException {
+    public MessageResponseDto createHouse(@Valid @ModelAttribute HouseRequestDto houseRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         log.info("houseRequestDto = {}" , houseRequestDto);
         return houseService.join(houseRequestDto,userDetails);
     }
