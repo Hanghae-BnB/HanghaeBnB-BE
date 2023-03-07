@@ -16,7 +16,7 @@ public class WishListController {
     private final WishListService wishListService;
 
     // wishlist에 숙소 추가하기
-    @PostMapping("/houses/{houseId}/wishList")
+    @PostMapping("/houses/{house-id}/wishList")
     public MessageResponseDto addWishList(@PathVariable Long houseId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return wishListService.addWishList(houseId, userDetails.getUser());
     }

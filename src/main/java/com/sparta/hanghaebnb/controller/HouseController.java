@@ -43,32 +43,32 @@ public class HouseController {
     /**
      * 여행지 상세보기 Controller
      */
-    @GetMapping("/houses/{houseId}")
-    public HouseResponseDto house(@PathVariable Long houseId){
+    @GetMapping("/houses/{house-id}")
+    public HouseResponseDto house(@PathVariable(name="house-id") Long houseId){
         return houseService.findHouse(houseId);
     }
 
     /**
      * 여행지 수정 Controller
      */
-    @PutMapping("/houses/{houseId}")
-    public MessageResponseDto updateHouse(@PathVariable Long houseId, @ModelAttribute HouseRequestDto houseRequestDto){
+    @PutMapping("/houses/{house-id}")
+    public MessageResponseDto updateHouse(@PathVariable(name = "house-id") Long houseId, @ModelAttribute HouseRequestDto houseRequestDto){
         return houseService.update(houseId, houseRequestDto);
     }
 
     /**
      * 여행지 삭제 Controller
      */
-    @DeleteMapping("/houses/{houseId}")
-    public MessageResponseDto removeHouse(@PathVariable Long houseId){
+    @DeleteMapping("/houses/{house-id}")
+    public MessageResponseDto removeHouse(@PathVariable(name="house-id") Long houseId){
         return houseService.remove(houseId);
     }
 
     /**
      * 여행지 카테고리별 조회 Controller
      */
-    @GetMapping("/houses/houseCase/{houseCase}")
-    public List<HouseResponseDto> categoryHouse(@PathVariable String houseCase){
+    @GetMapping("/houses/house-case/{house-case}")
+    public List<HouseResponseDto> categoryHouse(@PathVariable(name="house-case") String houseCase){
         return houseService.categoryHouses(houseCase);
     }
 
