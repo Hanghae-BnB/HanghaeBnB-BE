@@ -31,7 +31,7 @@ public enum ErrorCode {
 
     NOT_FOUND_TOKEN(HttpStatus.NOT_FOUND, "토큰을 찾을 수 없습니다."),
     ALREADY_DELETED_WISHLIST(HttpStatus.NOT_FOUND, "이미 삭제된 위시리스트입니다."),
-    NOT_FOUND_WISHLIST(HttpStatus.NOT_FOUND, "해당 위시리스타가 존재하지 않습니다.");
+    NOT_FOUND_WISHLIST(HttpStatus.NOT_FOUND, "해당 위시리스트가 존재하지 않습니다.");
 
 
 

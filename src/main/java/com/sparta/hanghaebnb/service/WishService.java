@@ -3,12 +3,12 @@ package com.sparta.hanghaebnb.service;
 import com.sparta.hanghaebnb.dto.response.MessageResponseDto;
 import com.sparta.hanghaebnb.entity.House;
 import com.sparta.hanghaebnb.entity.User;
-import com.sparta.hanghaebnb.entity.WishListAndHouse;
+import com.sparta.hanghaebnb.entity.Wish;
 import com.sparta.hanghaebnb.exception.CustomException;
 import com.sparta.hanghaebnb.exception.ErrorCode;
 import com.sparta.hanghaebnb.repository.HouseRepository;
 import com.sparta.hanghaebnb.repository.UserRepository;
-import com.sparta.hanghaebnb.repository.WishListAndHouseRepository;
+import com.sparta.hanghaebnb.repository.WishRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,55 +18,52 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class WishListService {
-    private final UserRepository userRepository;
+public class WishService {
     private final HouseRepository houseRepository;
-    private final WishListAndHouseRepository wishListAndHouseRepository;
+    private final WishRepository wishRepository;
 
     @Transactional
-    public MessageResponseDto addWishList(Long id, User user) {
-        // 1) 위시리스트에 넣으려는 숙소가 없는 경우
+    public MessageResponseDto addWish(Long id, User user) {
+        // 위시리스트에 넣으려는 숙소가 없는 경우
         Optional<House> house = houseRepository.findById(id);
         if (house.isEmpty()) {
             throw new CustomException(ErrorCode.NOT_FOUND_HOUSE);
         }
 
-//        Optional<WishList> wishList = wishListRepository.findByUser(user);
-//        if(wishList.isEmpty()) {
-//            wishList = Optional.of(WishList.of(user));
-//            wishListRepository.save(wishList.get());
-//        }
-
-        // 2) 이미 위시리스트에 있는 경우
-        Optional< WishListAndHouse> wishListAndHouse = wishListAndHouseRepository.findByUserAndHouse(user, house.get());
-        if (wishListAndHouse.isPresent()) {
+        // 이미 위시리스트에 있는 경우
+        Optional<Wish> compare = wishRepository.findByUserAndHouse(user, house.get());
+        if (compare.isPresent()) {
             throw new CustomException(ErrorCode.ALREADY_EXISTS_WISHLIST);
         }
 
-        wishListAndHouseRepository.save(new WishListAndHouse(user, house.get()));
+//        wishRepository.save(new Wish(user, house.get()));
+        wishRepository.save(Wish.of(user, house.get()));
         return new MessageResponseDto("위시리스트 작성 성공!", HttpStatus.OK);
 
     }
 
     @Transactional
-    public MessageResponseDto deleteWishList(Long id, User user) {
+    public MessageResponseDto deleteWish(Long id, User user) {
 
+        // 위시리스트에 넣으려는 숙소가 없는 경우
         Optional<House> house = houseRepository.findById(id);
         if (house.isEmpty()) {
             throw new CustomException(ErrorCode.NOT_FOUND_HOUSE);
         }
 
-        Optional<WishListAndHouse> wishListAndHouse = wishListAndHouseRepository.findByUser(user);
-        if (wishListAndHouse.isEmpty()) {
+         // 해당 유저의 위시리스트가 없는 경우
+        Optional<Wish> wish = wishRepository.findByUser(user);
+        if (wish.isEmpty()) {
             throw new CustomException(ErrorCode.NOT_FOUND_WISHLIST);
         }
 
-        Optional< WishListAndHouse> compare = wishListAndHouseRepository.findByUserAndHouse(user, house.get());
+        // 이미 위시리스트가 삭제된 경우
+        Optional<Wish> compare = wishRepository.findByUserAndHouse(user, house.get());
         if (compare.isEmpty()) {
             throw new CustomException(ErrorCode.ALREADY_DELETED_WISHLIST);
         }
 
-        wishListAndHouseRepository.delete(wishListAndHouse.get());
+        wishRepository.delete(compare.get());
         return new MessageResponseDto("위시리스트 삭제 성공!", HttpStatus.OK);
 
     }
