@@ -30,19 +30,19 @@ public class UserService {
     private final ApiResponse apiResponse;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
+
     public MessageResponseDto signup(SignupRequestDto signupRequestDto) {
-        String username = signupRequestDto.getUsername();
         String email = signupRequestDto.getEmail();
-        String birth = signupRequestDto.getBirth();
-        String password = passwordEncoder.encode(signupRequestDto.getPassword());
+        signupRequestDto.setPassword(passwordEncoder.encode(signupRequestDto.getPassword()));
         Optional<User> found = userRepository.findByEmail(email);
         if (found.isPresent()) {
             throw new CustomException(ErrorCode.DUPLICATED_EMAIL);
         }
-        User user = User.of(username, password, birth, email);
+        User user = User.from(signupRequestDto);
         userRepository.save(user);
         return apiResponse.success("회원가입 성공");
     }
+
     @Transactional
     public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         String email = loginRequestDto.getEmail();
@@ -53,7 +53,7 @@ public class UserService {
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new CustomException(ErrorCode.UNMATCHED_PASSWORD);
         }
-        RefreshToken refreshToken = RefreshToken.of(jwtUtil.createRT(user.getEmail()),user);
+        RefreshToken refreshToken = RefreshToken.of(jwtUtil.createRT(user.getEmail()), user);
         Optional<RefreshToken> found = refreshTokenRepository.findByUser(user);
         //리프레시 토큰 발급
         String rt = jwtUtil.createRT(user.getEmail());
@@ -63,13 +63,13 @@ public class UserService {
         //액세스 토큰 response
         response.addHeader(JwtUtil.AT_HEADER, jwtUtil.createAT(user.getEmail()));
         //리프레시 토큰 response
-        response.addHeader(JwtUtil.RT_HEADER,rt);
+        response.addHeader(JwtUtil.RT_HEADER, rt);
         return LoginResponseDto.builder().username(user.getUsername()).build();
     }
 
 
     @Transactional
-    public MessageResponseDto logout(User user,HttpServletRequest request) {
+    public MessageResponseDto logout(User user, HttpServletRequest request) {
         RefreshToken refreshToken = refreshTokenRepository.findByUser(user).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_USER)
         );
@@ -79,6 +79,7 @@ public class UserService {
         refreshTokenRepository.deleteByToken(request.getHeader("RT_Authorization"));
         return apiResponse.success("로그아웃 성공");
     }
+
     public MessageResponseDto refresh(HttpServletRequest request, HttpServletResponse response, User user) {
         String requestRT = request.getHeader(JwtUtil.RT_HEADER);
         Optional<RefreshToken> found = refreshTokenRepository.findByToken(requestRT);

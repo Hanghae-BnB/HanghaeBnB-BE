@@ -13,4 +13,7 @@ public class SignupRequestDto {
             , message = "이메일 형식에 맞지 않습니다.")
     private String email;
     private String birth;
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
