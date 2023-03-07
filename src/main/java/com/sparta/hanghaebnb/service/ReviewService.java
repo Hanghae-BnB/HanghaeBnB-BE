@@ -21,17 +21,41 @@ public class ReviewService {
     private final HouseRepository houseRepository;
     private final ReviewRepository reviewRepository;
 
-    // 리뷰 생성
+    // 리뷰 작성
     public MessageResponseDto createReview(Long id, ReviewRequestDto reviewRequestDto, User user) {
-        // 해당 게시글이 있는지 확인
+        // 해당 숙소가 있는지 확인
         Optional<House> house = houseRepository.findById(id);
         if (house.isEmpty()) {
             throw new CustomException(ErrorCode.NOT_FOUND_HOUSE);
-        } else {
-            Review review = new Review(reviewRequestDto, user, house.get());
-            reviewRepository.save(review);
-            return new MessageResponseDto("리뷰 작성 성공!", HttpStatus.OK);
         }
 
+        // 이미 리뷰가 작성되었는지 확인
+        Optional<Review> compare = reviewRepository.findByUserAndHouse(user, house.get());
+        if(compare.isPresent()) {
+            throw new CustomException(ErrorCode.ALREADY_EXISTS_REVIEW);
+        }
+
+        Review review = new Review(reviewRequestDto, user, house.get());
+        reviewRepository.save(review);
+        return new MessageResponseDto("리뷰 작성 성공!", HttpStatus.OK);
     }
+
+    // 리뷰 삭제
+    public MessageResponseDto deleteReview(Long id, User user) {
+        // 해당 숙소가 있는지 확인
+        Optional<House> house = houseRepository.findById(id);
+        if (house.isEmpty()) {
+            throw new CustomException(ErrorCode.NOT_FOUND_HOUSE);
+        }
+
+        // 이미 리뷰가 작성되었는지 확인
+        Optional<Review> compare = reviewRepository.findByUserAndHouse(user, house.get());
+        if(compare.isEmpty()) {
+            throw new CustomException(ErrorCode.NOT_FOUND_REVIEW);
+        }
+
+        reviewRepository.delete(compare.get());
+        return new MessageResponseDto("리뷰 삭제 성공!", HttpStatus.OK);
+    }
+
 }

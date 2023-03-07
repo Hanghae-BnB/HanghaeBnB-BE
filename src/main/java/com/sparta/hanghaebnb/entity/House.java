@@ -56,7 +56,7 @@ public class House extends Timestamped{
     private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
-    private List<WishListAndHouse> wishListAndHouseList = new ArrayList<>();
+    private List<Wish> wishList= new ArrayList<>();
 
     @Builder
     private House(String title, int price, String location, String explaination, String imgUrl, int maxNumPeople, int bedNum, int bathNum, String houseCase, List<Facility> facilities, User user) {
