@@ -21,7 +21,7 @@ public enum ErrorCode {
 
     ALREADY_EXISTS_WISHLIST(HttpStatus.BAD_REQUEST, "이미 위시리스트에 추가하셨습니다"),
     Transition_Failed(HttpStatus.BAD_REQUEST, "MultipartFile -> File로 전환이 실패했습니다."),
-
+    INVALID_ARGUMENT(HttpStatus.BAD_REQUEST, "비어있는 항목이 있습니다."),
 
 
     // 404 Not Found
