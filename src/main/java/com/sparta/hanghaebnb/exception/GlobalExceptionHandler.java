@@ -14,7 +14,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     public MessageResponseDto methodValidException(MethodArgumentNotValidException e) {
         MessageResponseDto responseDto = makeErrorResponse(e.getBindingResult());
+        log.error("methodValidException throw Exception : {}", e.getBindingResult());
         return MessageResponseDto.of(responseDto.getMsg(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {CustomException.class})
+    protected ResponseEntity<ErrorResponse> handleCustomException(CustomException e) {
+        log.error("handleDataException throw Exception : {}", e.getErrorCode());
+        return ErrorResponse.toResponseEntity(e.getErrorCode());
     }
 
     private MessageResponseDto makeErrorResponse(BindingResult bindingResult) {
@@ -23,11 +30,5 @@ public class GlobalExceptionHandler {
             message = bindingResult.getAllErrors().get(0).getDefaultMessage();
         }
         return MessageResponseDto.of(message, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(value = {CustomException.class})
-    protected ResponseEntity<ErrorResponse> handleCustomException(CustomException e) {
-        log.error("handleDataException throw Exception : {}", e.getErrorCode());
-        return ErrorResponse.toResponseEntity(e.getErrorCode());
     }
 }
