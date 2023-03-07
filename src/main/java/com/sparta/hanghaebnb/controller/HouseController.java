@@ -6,6 +6,7 @@ import com.sparta.hanghaebnb.dto.response.MessageResponseDto;
 import com.sparta.hanghaebnb.response.ApiDocumentResponse;
 import com.sparta.hanghaebnb.security.UserDetailsImpl;
 import com.sparta.hanghaebnb.service.HouseService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,6 +28,7 @@ public class HouseController {
     /**
      * 여행지 등록 관련 Controller
      */
+    @Operation(summary = "게시글 생성 요청", description = "게시글이 추가됩니다.", tags = {"Board"})
     @PostMapping("/houses")
     public MessageResponseDto createHouse(@Valid @ModelAttribute HouseRequestDto houseRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         log.info("houseRequestDto = {}" , houseRequestDto);
