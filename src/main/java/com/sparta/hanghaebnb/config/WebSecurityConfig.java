@@ -2,6 +2,7 @@ package com.sparta.hanghaebnb.config;
 
 import com.sparta.hanghaebnb.jwt.JwtAuthFilter;
 import com.sparta.hanghaebnb.jwt.JwtUtil;
+import com.sparta.hanghaebnb.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +28,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class WebSecurityConfig {
 
     private final JwtUtil jwtUtil;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -65,7 +67,7 @@ public class WebSecurityConfig {
                 .antMatchers("/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
                 // JWT 인증/인가를 사용하기 위한 설정
-                .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterBefore(new JwtAuthFilter(jwtUtil,refreshTokenRepository), UsernamePasswordAuthenticationFilter.class);
 
 // 이 설정을 해주지 않으면 밑의 corsConfigurationSource가 적용되지 않습니다!
         http.cors();

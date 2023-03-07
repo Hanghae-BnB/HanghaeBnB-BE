@@ -29,7 +29,7 @@ public class JwtUtil {
     public static final String AUTHORIZATION_KEY = "auth";
     private static final String BEARER_PREFIX = "Bearer ";
     private static final long AT_TIME = 60 * 60 * 1000L;
-    private static final Long RT_TIME = 60*60*60*1000L;
+    private static final Long RT_TIME = 60 * 60 * 60 * 1000L;
     private final UserDetailsServiceImpl userDetailsService;
 
 
@@ -52,6 +52,7 @@ public class JwtUtil {
         }
         return null;
     }
+
     public String resolveRefreshToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(RT_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
@@ -73,6 +74,7 @@ public class JwtUtil {
                         .signWith(key, signatureAlgorithm)
                         .compact();
     }
+
     public String createRT(String username) {
         Date date = new Date();
         return BEARER_PREFIX +
