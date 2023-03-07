@@ -64,15 +64,16 @@ public class UserService {
         response.addHeader(JwtUtil.AT_HEADER, jwtUtil.createAT(user.getEmail()));
         //리프레시 토큰 response
         response.addHeader(JwtUtil.RT_HEADER, rt);
-        return LoginResponseDto.builder().username(user.getUsername()).build();
+        return LoginResponseDto.of(user.getUsername());
     }
 
     @Transactional
     public MessageResponseDto logout(User user, HttpServletRequest request) {
-        RefreshToken refreshToken = refreshTokenRepository.findByUser(user).orElseThrow(
-                () -> new CustomException(ErrorCode.NOT_FOUND_USER)
-        );
-        if (!Objects.equals(refreshToken.getToken(), request.getHeader("RT_Authorization"))) {
+        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByUser(user);
+        if (refreshToken.isEmpty()) {
+            throw new CustomException(ErrorCode.NOT_FOUND_USER);
+        }
+        if (!Objects.equals(refreshToken.get().getToken(), request.getHeader("RT_Authorization"))) {
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
         refreshTokenRepository.deleteByToken(request.getHeader("RT_Authorization"));
