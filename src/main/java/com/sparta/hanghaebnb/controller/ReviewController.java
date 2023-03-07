@@ -21,6 +21,7 @@ public class ReviewController {
     public MessageResponseDto createReview(@PathVariable("house-id") Long houseId, @RequestBody ReviewRequestDto reviewRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return reviewService.createReview(houseId, reviewRequestDto, userDetails.getUser());
     }
+
     // 리뷰 작성
     @DeleteMapping("/houses/{house-id}/reviews")
     public MessageResponseDto deleteReview(@PathVariable("house-id") Long houseId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
