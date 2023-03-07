@@ -9,8 +9,10 @@ import com.sparta.hanghaebnb.service.HouseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 @ApiDocumentResponse
@@ -26,7 +28,7 @@ public class HouseController {
      * 여행지 등록 관련 Controller
      */
     @PostMapping("/houses")
-    public MessageResponseDto createHouse(@ModelAttribute HouseRequestDto houseRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+    public MessageResponseDto createHouse(@Valid @ModelAttribute HouseRequestDto houseRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails, BindingResult result) throws IOException {
         log.info("houseRequestDto = {}" , houseRequestDto);
         return houseService.join(houseRequestDto,userDetails);
     }

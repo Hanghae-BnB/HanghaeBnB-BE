@@ -12,6 +12,10 @@ public enum ErrorCode {
 
     // 400 Bad Request
     ALREADY_EXISTS_WISHLIST(HttpStatus.BAD_REQUEST, "이미 위시리스트에 추가하셨습니다"),
+
+    Transition_Failed(HttpStatus.BAD_REQUEST, "MultipartFile -> File로 전환이 실패했습니다."),
+    INVALID_ARGUMENT(HttpStatus.BAD_REQUEST, "비어있는 항목이 있습니다."),
+
     ALREADY_EXISTS_REVIEW(HttpStatus.BAD_REQUEST, "이미 리뷰를 작성하셨습니다."),
     TRANSITION_FAILED(HttpStatus.BAD_REQUEST, "MultipartFile -> File로 전환이 실패했습니다."),
 
@@ -23,6 +27,7 @@ public enum ErrorCode {
     DUPLICATED_USER(HttpStatus.UNAUTHORIZED, "중복된 가입정보가 있습니다."),
     DUPLICATED_NICKNAME(HttpStatus.UNAUTHORIZED, "중복된 닉네임이 있습니다."),
     UNMATCHED_PASSWORD(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다."),
+
 
 
 
