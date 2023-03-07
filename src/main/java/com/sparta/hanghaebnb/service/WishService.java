@@ -36,9 +36,8 @@ public class WishService {
             throw new CustomException(ErrorCode.ALREADY_EXISTS_WISHLIST);
         }
 
-//        wishRepository.save(new Wish(user, house.get()));
         wishRepository.save(Wish.of(user, house.get()));
-        return new MessageResponseDto("위시리스트 작성 성공!", HttpStatus.OK);
+        return new MessageResponseDto("위시리스트 추가 성공!", HttpStatus.OK);
 
     }
 
@@ -49,12 +48,6 @@ public class WishService {
         Optional<House> house = houseRepository.findById(id);
         if (house.isEmpty()) {
             throw new CustomException(ErrorCode.NOT_FOUND_HOUSE);
-        }
-
-         // 해당 유저의 위시리스트가 없는 경우
-        Optional<Wish> wish = wishRepository.findByUser(user);
-        if (wish.isEmpty()) {
-            throw new CustomException(ErrorCode.NOT_FOUND_WISHLIST);
         }
 
         // 이미 위시리스트가 삭제된 경우

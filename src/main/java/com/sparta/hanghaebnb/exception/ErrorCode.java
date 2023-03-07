@@ -20,7 +20,8 @@ public enum ErrorCode {
     UNMATCHED_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
 
     ALREADY_EXISTS_WISHLIST(HttpStatus.BAD_REQUEST, "이미 위시리스트에 추가하셨습니다"),
-    Transition_Failed(HttpStatus.BAD_REQUEST, "MultipartFile -> File로 전환이 실패했습니다."),
+    ALREADY_EXISTS_REVIEW(HttpStatus.BAD_REQUEST, "이미 리뷰를 작성하셨습니다."),
+    TRANSITION_Failed(HttpStatus.BAD_REQUEST, "MultipartFile -> File로 전환이 실패했습니다."),
 
 
 
