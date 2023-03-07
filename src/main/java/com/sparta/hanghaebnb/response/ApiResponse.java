@@ -1,6 +1,6 @@
 package com.sparta.hanghaebnb.response;
 
-import com.sparta.hanghaebnb.dto.MessageResponseDto;
+import com.sparta.hanghaebnb.dto.response.MessageResponseDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

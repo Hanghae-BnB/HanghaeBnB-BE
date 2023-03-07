@@ -1,4 +1,4 @@
-package com.sparta.hanghaebnb.dto;
+package com.sparta.hanghaebnb.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

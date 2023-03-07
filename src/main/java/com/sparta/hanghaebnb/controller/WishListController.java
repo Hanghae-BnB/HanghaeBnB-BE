@@ -1,6 +1,6 @@
 package com.sparta.hanghaebnb.controller;
 
-import com.sparta.hanghaebnb.dto.MessageResponseDto;
+import com.sparta.hanghaebnb.dto.response.MessageResponseDto;
 import com.sparta.hanghaebnb.response.ApiDocumentResponse;
 import com.sparta.hanghaebnb.security.UserDetailsImpl;
 import com.sparta.hanghaebnb.service.WishListService;

@@ -1,4 +1,4 @@
-package com.sparta.hanghaebnb.dto;
+package com.sparta.hanghaebnb.dto.response;
 
 import com.sparta.hanghaebnb.entity.House;
 import lombok.Builder;
@@ -9,28 +9,22 @@ import java.text.DecimalFormat;
 @Getter
 public class HouseResponseDto {
 
-    // 하우스 ID
     private Long id;
-    // 호스트명
     private String userNickname;
-    // 글 제목
     private String title;
-    // 하우스 위치
+    private String distance;
     private String location;
-    // 숙박료
     private String price;
-    // 하우스이미지
     private String imageUrl;
-    //좋아요 수
     private int likesNum;
-    //리뷰 수
     private int reviewNum;
 
     @Builder
-    public HouseResponseDto(Long id, String userNickname, String title, String location, String price, String imageUrl, int likesNum, int reviewNum) {
+    private HouseResponseDto(Long id, String userNickname, String title, String distance, String location, String price, String imageUrl, int likesNum, int reviewNum) {
         this.id = id;
         this.userNickname = userNickname;
         this.title = title;
+        this.distance = distance;
         this.location = location;
         this.price = price;
         this.imageUrl = imageUrl;
@@ -38,14 +32,18 @@ public class HouseResponseDto {
         this.reviewNum = reviewNum;
     }
 
-    public static HouseResponseDto from(House house, int likesNum , int reviewNum){
-        DecimalFormat priceFormat = new DecimalFormat("###,###");
+
+
+
+    public static HouseResponseDto of(House house,int likesNum , int reviewNum){
+        DecimalFormat format = new DecimalFormat("###,###");
         return HouseResponseDto.builder()
                 .id(house.getId())
                 .userNickname(house.getUser().getUsername())
                 .title(house.getTitle())
                 .location(house.getLocation())
-                .price(priceFormat.format(house.getPrice()))
+                .price(format.format(house.getPrice()))
+                .distance( format.format( (int) ( 1000 + Math.random() * 9000 ) ) )
                 .imageUrl(house.getImgUrl())
                 .likesNum(likesNum)
                 .reviewNum(reviewNum)
