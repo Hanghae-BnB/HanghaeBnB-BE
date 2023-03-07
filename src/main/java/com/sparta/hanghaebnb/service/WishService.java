@@ -58,7 +58,6 @@ public class WishService {
 
         wishRepository.delete(compare.get());
         return new MessageResponseDto("위시리스트 삭제 성공!", HttpStatus.OK);
-
     }
 
 }
