@@ -17,19 +17,30 @@ public class HouseRequestDto {
 
     @NotNull @NotBlank
     private String title;
+
     @Min(10000)
     private int price;
+
     @NotNull @NotBlank
     private String explaination;
+
     @NotNull @NotBlank
     private String location;
+
+    private String houseCase;
+
     @Min(0) @Max(50)
     private int maxPeople;
-    private String houseCase;
+
     @Min(0) @Max(4)
     private int bedRoom;
+
+    @Min(0) @Max(4)
+    private int bedNum;
+
     @Min(0) @Max(4)
     private int bathRoom;
+
     @NotNull
     private String[] facilities ;
 
