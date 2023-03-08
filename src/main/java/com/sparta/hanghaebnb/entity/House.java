@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Entity
@@ -46,7 +48,7 @@ public class House extends Timestamped{
     @Column(nullable = false)
     private String imgUrl;
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
-    private List<Facility> facilities = new ArrayList<>();
+    private Set<Facility> facilities = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USERS_ID",nullable = false)
@@ -87,7 +89,7 @@ public class House extends Timestamped{
                 .user(user)
                 .build();
     }
-    //연관관계 매세드
+
     public void update(HouseRequestDto houseRequestDto,String imgUrl) {
         this.title = houseRequestDto.getTitle();
         this.price =houseRequestDto.getPrice();
