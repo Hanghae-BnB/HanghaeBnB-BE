@@ -30,8 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,10 +41,10 @@ import java.util.stream.Collectors;
 public class HouseService {
 
     private final HouseRepository houseRepository;
+
     private final FacilityRepository facilityRepository;
     private  final ReviewRepository reviewRepository;
     private final S3Uploader s3Uploader;
-    private final EntityManager em;
 
     /**
      * 게시글 작성 기능
@@ -53,16 +52,17 @@ public class HouseService {
     public MessageResponseDto join(HouseRequestDto houseRequestDto, UserDetailsImpl userDetails) {
 
         String imgUrl = getImgUrl(houseRequestDto);
-
         House newHouse = House.of(houseRequestDto, userDetails.getUser(),imgUrl);
-        
-        em.persist(newHouse);
 
-        addFacility(houseRequestDto, newHouse);
+        for (String f : houseRequestDto.getFacilities()) {
+            Facility newFacility = new Facility(f);
+            newFacility.addHouse(newHouse);
+        }
+
+        houseRepository.save(newHouse);
 
         return new MessageResponseDto("성공", HttpStatus.OK);
     }
-
 
     /**
      * 게시글 전체 조회 기능 (추가 진행 예정)
@@ -107,24 +107,27 @@ public class HouseService {
         House findHouse = houseRepository.findById(houseId).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_HOUSE));
 
-        facilityRepository.deleteAllByHouseId(houseId);
-
         String imgUrl = getImgUrl(houseRequestDto);
 
-        addFacility(houseRequestDto, findHouse);
+        Set<Facility> allByHouse = facilityRepository.findAllByHouse(findHouse);
+        Set<String> type = new HashSet<>(Arrays.asList(houseRequestDto.getFacilities()));
 
-        findHouse.update(houseRequestDto,imgUrl);
-
-        return new MessageResponseDto("수정완료",HttpStatus.OK);
-    }
-
-    private String getImgUrl(HouseRequestDto houseRequestDto) {
-        try{
-            File resize_File = resizeImage(houseRequestDto.getFile(),250,250);
-            return s3Uploader.upload(resize_File);
-        }catch (IOException | NullPointerException e){
-            return "https://cleaningproject.s3.ap-northeast-2.amazonaws.com/hanghaebnb/image_readtop_2021_125024_16126812034533410.jpeg";
+        for (Facility facility : allByHouse) {
+            if(!type.contains(facility.getType())){
+                facilityRepository.delete(facility);
+            }
         }
+
+        Set<String> currentType = allByHouse.stream().map( s -> s.getType()).collect(Collectors.toSet());
+        for (String s : type) {
+            if(! currentType.contains(s)){
+                Facility newFacility = new Facility(s);
+                newFacility.addHouse(findHouse);
+                facilityRepository.save(newFacility);
+            }
+        }
+        findHouse.update(houseRequestDto,imgUrl);
+        return new MessageResponseDto("수정완료",HttpStatus.OK);
     }
 
     /**
@@ -161,16 +164,17 @@ public class HouseService {
     }
 
     /**
-     * 편의 시설 추가
+     * 이미지 URL 얻는 기능
      */
-    private void addFacility(HouseRequestDto houseRequestDto, House findHouse) {
-        for (String f : houseRequestDto.getFacilities()) {
-            Facility newFacility = new Facility(f);
-            newFacility.addHouse(findHouse);
-            em.persist(newFacility);
+    private String getImgUrl(HouseRequestDto houseRequestDto) {
+        try{
+            File resize_File = resizeImage(houseRequestDto.getFile(),250,250);
+            return s3Uploader.upload(resize_File);
+        }catch (IOException | NullPointerException e){
+            return "https://cleaningproject.s3.ap-northeast-2.amazonaws.com/hanghaebnb/image_readtop_2021_125024_16126812034533410.jpeg";
         }
     }
-
+    
     /**
      * 이미지 리사이징 기능
      */
