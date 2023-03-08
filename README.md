@@ -1,5 +1,4 @@
 # HanghaeBnb-BE
-백엔드
 <br/><br/> 
 
 ## 🔗 STEP1. 프로젝트 소개
@@ -87,7 +86,9 @@
 <br/><br/> 
 
 ## 🏗️ STEP 4 :   API Specification
-<br/><br/> 
+API 명세서 보러가기 : https://www.notion.so/bf9c53323687464d817a725dd503b810?v=0b366ade4cc646799754b9dcc6c95d81
+<br/><br/> <br/> 
+
 
  ## 💡 STEP 5 : Core Tools
 <img src="https://img.shields.io/badge/Spring-green?style=for-the-badge&logo=Spring&logoColor=#6DB33F"> <img src="https://img.shields.io/badge/Spring Boot-green?style=for-the-badge&logo=Spring Boot&logoColor=#6DB33F"> <img src="https://img.shields.io/badge/Spring Security-green?style=for-the-badge&logo=Spring Security&logoColor=#6DB33F">
@@ -101,8 +102,9 @@
    ## 📌 STEP 6 : Trouble Shooting
 | 트러블 슈팅 내용 | 해결 방법 |
 | --- | --- |
-|  |  |
-|  | |
+| access토큰이 만료되었을시 자동으로 refresh 토큰값의 유효성을 검사하고,<br/> 검증이 되면헤더에 access토큰값을 새로 발급해 전달하는 로직을 짜는 중 LazyInitializationException에러가 발생 | 1. Hibernate.initialize(refresh.getUser())메서드로 프록시 객체에 하위 엔티티를 초기화 <br/>2. RefreshToken 엔티티를 Eager타입으로 변경 |
+| ERD wishList, House, User 간의 매핑 수정   | WishList - house 간의 중간 테이블의 필요성에 대한 고민.<br/>  wishList로 통합해서 사용 |
+  
 
 <br/><br/>
  
@@ -112,7 +114,8 @@
   | 개선 가능한 부분 | 의논한 개선 방안 |
   | --- | --- |
   |  |  |
-  
+  |  |  |
+
 
 
 <br/><br/>
