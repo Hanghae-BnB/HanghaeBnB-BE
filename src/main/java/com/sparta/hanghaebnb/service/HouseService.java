@@ -14,6 +14,9 @@ import com.sparta.hanghaebnb.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -156,11 +159,12 @@ public class HouseService {
     /**
      * 검색 기능으로 여행지 조회
      */
-    public List<HouseResponseDto> keywordHouse(String keyword) {
+    public List<HouseResponseDto> keywordHouse(String keyword,int page, int size) {
 
-        List<House> findHouses = houseRepository.findAllByTitleContainsOrderByCreatedAtDesc(keyword);
+        Pageable pageable = PageRequest.of(page,size);
+        Page<House> findHouses = houseRepository.findAllByTitleContainsOrderByCreatedAtDesc(keyword,pageable);
 
-        return findHouses.stream().map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
+        return findHouses.get().map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
     }
 
     /**

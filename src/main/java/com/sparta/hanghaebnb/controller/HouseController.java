@@ -71,8 +71,10 @@ public class HouseController {
      * 검색 기능으로 여행지 조회 Controller
      */
     @GetMapping("/house")
-    public List<HouseResponseDto> keywordHouse(@RequestParam("keyword") String keyword){
-        return houseService.keywordHouse(keyword);
+    public List<HouseResponseDto> keywordHouse(@RequestParam("keyword") String keyword,
+                                               @RequestParam("page") int page,
+                                               @RequestParam("size") int size){
+        return houseService.keywordHouse(keyword,page-1,size);
     }
 
 }
