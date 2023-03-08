@@ -16,11 +16,11 @@ public class HouseResponseDto {
     private String location;
     private String price;
     private String imageUrl;
-    private int likesNum;
+    private double likesNum;
     private int reviewNum;
 
     @Builder
-    private HouseResponseDto(Long id, String userNickname, String title, String distance, String location, String price, String imageUrl, int likesNum, int reviewNum) {
+    private HouseResponseDto(Long id, String userNickname, String title, String distance, String location, String price, String imageUrl, double likesNum, int reviewNum) {
         this.id = id;
         this.userNickname = userNickname;
         this.title = title;
@@ -32,7 +32,7 @@ public class HouseResponseDto {
         this.reviewNum = reviewNum;
     }
 
-    public static HouseResponseDto of(House house,int likesNum , int reviewNum){
+    public static HouseResponseDto of(House house,double likesNum , int reviewNum){
         DecimalFormat format = new DecimalFormat("###,###");
         return HouseResponseDto.builder()
                 .id(house.getId())

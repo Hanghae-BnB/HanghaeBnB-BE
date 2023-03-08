@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface HouseRepository extends JpaRepository<House,Long> {
 
     //생성일 내림차순 전체 조회
-//    List<House> findAllByOrderByCreatedAtDesc();
     Page<House> findAllByOrderByCreatedAtDesc(Pageable pageable);
     //카테고리에 따른 전체 여행지 검색
     Page<House> findAllByHouseCaseOrderByCreatedAtDesc(String houseCase, Pageable pageable);
