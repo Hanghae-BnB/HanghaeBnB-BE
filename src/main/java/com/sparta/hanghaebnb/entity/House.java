@@ -59,7 +59,7 @@ public class House extends Timestamped{
     private List<Wish> wishList= new ArrayList<>();
 
     @Builder
-    private House(String title, int price, String location, String explaination, String imgUrl, int maxPeople, int bedNum, int bedRoom,int bathRoom, String houseCase, List<Facility> facilities, User user) {
+    private House(String title, int price, String location, String explaination, String imgUrl, int maxPeople, int bedNum, int bedRoom,int bathRoom, String houseCase,User user) {
         this.title = title;
         this.price = price;
         this.location = location;
@@ -70,7 +70,6 @@ public class House extends Timestamped{
         this.bedRoom = bedRoom;
         this.bathRoom = bathRoom;
         this.houseCase = houseCase;
-        this.facilities = facilities;
         this.user = user;
     }
     public static House of(HouseRequestDto houseRequestDto,User user,String imgUrl){
@@ -89,12 +88,7 @@ public class House extends Timestamped{
                 .build();
     }
     //연관관계 매세드
-    public void addFacilities(List<Facility> facilities){
-        this.facilities = facilities;
-    }
-
-
-    public void update(HouseRequestDto houseRequestDto,List<Facility> facilities) {
+    public void update(HouseRequestDto houseRequestDto) {
         this.title = houseRequestDto.getTitle();
         this.price =houseRequestDto.getPrice();
         this.location = houseRequestDto.getLocation();
@@ -105,6 +99,6 @@ public class House extends Timestamped{
         this.bedRoom = houseRequestDto.getBedRoom();
         this.bathRoom = houseRequestDto.getBathRoom();
         this.houseCase = houseRequestDto.getHouseCase();
-        this.facilities = facilities;
+//        this.facilities = facilities;
     }
 }
