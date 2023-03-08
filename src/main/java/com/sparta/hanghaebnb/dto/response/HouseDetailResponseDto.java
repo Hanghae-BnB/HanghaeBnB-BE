@@ -31,11 +31,13 @@ public class HouseDetailResponseDto {
 
     private String houseCase;
 
+    private int maxPeople;
+
     private int bedRoom;
 
     private int bedNum;
 
-    private int bathNum;
+    private int bathRoom;
 
     private LocalDateTime createdAt;
 
@@ -51,7 +53,7 @@ public class HouseDetailResponseDto {
     private HouseDetailResponseDto(
            Long id, String title, String userName, String imageUrl, String explaination,
            String price, String location, String distance, String houseCase,
-           int bedNum, int bathNum, double starNum, int reviewNum , int bedRoom,
+           int bedNum, int bathRoom, double starNum, int reviewNum , int bedRoom,int maxPeople,
            LocalDateTime createdAt, List<FacilityResponseDto> facilities, List<ReviewResponseDto> reviews
                                    )
     {
@@ -64,9 +66,10 @@ public class HouseDetailResponseDto {
         this.location = location;
         this.distance = distance;
         this.houseCase = houseCase;
+        this.maxPeople = maxPeople;
         this.bedRoom = bedRoom;
         this.bedNum = bedNum;
-        this.bathNum = bathNum;
+        this.bathRoom = bathRoom;
         this.createdAt = createdAt;
         this.facilities = facilities;
         this.reviews = reviews;
@@ -86,9 +89,10 @@ public class HouseDetailResponseDto {
                 .location(house.getLocation())
                 .distance( format.format( (int) ( 1000 + Math.random() * 9000 ) ) )
                 .houseCase(house.getHouseCase())
+                .maxPeople(house.getMaxPeople())
                 .bedRoom(house.getBedRoom())
                 .bedNum(house.getBedNum())
-                .bathNum(house.getBathNum())
+                .bathRoom(house.getBathRoom())
                 .createdAt(house.getCreatedAt())
                 .facilities(facilities)
                 .reviews(reviews)

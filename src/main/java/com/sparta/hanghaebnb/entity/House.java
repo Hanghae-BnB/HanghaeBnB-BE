@@ -42,7 +42,7 @@ public class House extends Timestamped{
     private int bedNum;
 
     @Column(nullable = false)
-    private int bathNum;
+    private int bathRoom;
     @Column(nullable = false)
     private String imgUrl;
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
@@ -59,7 +59,7 @@ public class House extends Timestamped{
     private List<Wish> wishList= new ArrayList<>();
 
     @Builder
-    private House(String title, int price, String location, String explaination, String imgUrl, int maxPeople, int bedNum, int bedRoom,int bathNum, String houseCase, List<Facility> facilities, User user) {
+    private House(String title, int price, String location, String explaination, String imgUrl, int maxPeople, int bedNum, int bedRoom,int bathRoom, String houseCase, List<Facility> facilities, User user) {
         this.title = title;
         this.price = price;
         this.location = location;
@@ -68,7 +68,7 @@ public class House extends Timestamped{
         this.maxPeople = maxPeople;
         this.bedNum = bedNum;
         this.bedRoom = bedRoom;
-        this.bathNum = bathNum;
+        this.bathRoom = bathRoom;
         this.houseCase = houseCase;
         this.facilities = facilities;
         this.user = user;
@@ -83,7 +83,7 @@ public class House extends Timestamped{
                 .maxPeople(houseRequestDto.getMaxPeople())
                 .bedNum(houseRequestDto.getBedNum())
                 .bedRoom(houseRequestDto.getBedRoom())
-                .bathNum(houseRequestDto.getBathRoom())
+                .bathRoom(houseRequestDto.getBathNum())
                 .houseCase(houseRequestDto.getHouseCase())
                 .user(user)
                 .build();
