@@ -25,26 +25,26 @@ public class House extends Timestamped{
     private int price;
 
     @Column(nullable = false)
-    private String location;
-
-    @Column(nullable = false)
     private String explaination;
 
     @Column(nullable = false)
-    private String imgUrl;
+    private String location;
 
     @Column(nullable = false)
-    private int maxNumPeople;
+    private String houseCase;
 
+    @Column(nullable = false)
+    private int maxPeople;
+
+    @Column(nullable = false)
+    private int bedRoom;
     @Column(nullable = false)
     private int bedNum;
 
     @Column(nullable = false)
     private int bathNum;
-
     @Column(nullable = false)
-    private String houseCase;
-
+    private String imgUrl;
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
     private List<Facility> facilities = new ArrayList<>();
 
@@ -59,14 +59,15 @@ public class House extends Timestamped{
     private List<Wish> wishList= new ArrayList<>();
 
     @Builder
-    private House(String title, int price, String location, String explaination, String imgUrl, int maxNumPeople, int bedNum, int bathNum, String houseCase, List<Facility> facilities, User user) {
+    private House(String title, int price, String location, String explaination, String imgUrl, int maxPeople, int bedNum, int bedRoom,int bathNum, String houseCase, List<Facility> facilities, User user) {
         this.title = title;
         this.price = price;
         this.location = location;
         this.explaination = explaination;
         this.imgUrl = imgUrl;
-        this.maxNumPeople = maxNumPeople;
+        this.maxPeople = maxPeople;
         this.bedNum = bedNum;
+        this.bedRoom = bedRoom;
         this.bathNum = bathNum;
         this.houseCase = houseCase;
         this.facilities = facilities;
@@ -79,8 +80,9 @@ public class House extends Timestamped{
                 .location(houseRequestDto.getLocation())
                 .explaination(houseRequestDto.getExplaination())
                 .imgUrl(imgUrl)
-                .maxNumPeople(houseRequestDto.getMaxPeople())
-                .bedNum(houseRequestDto.getBedRoom())
+                .maxPeople(houseRequestDto.getMaxPeople())
+                .bedNum(houseRequestDto.getBedNum())
+                .bedRoom(houseRequestDto.getBedRoom())
                 .bathNum(houseRequestDto.getBathRoom())
                 .houseCase(houseRequestDto.getHouseCase())
                 .user(user)
@@ -98,8 +100,9 @@ public class House extends Timestamped{
         this.location = houseRequestDto.getLocation();
         this.explaination = houseRequestDto.getLocation();
         this.imgUrl = houseRequestDto.getFile().getName();
-        this.maxNumPeople = houseRequestDto.getMaxPeople();
+        this.maxPeople = houseRequestDto.getMaxPeople();
         this.bedNum = houseRequestDto.getBedRoom();
+        this.bedRoom = houseRequestDto.getBedRoom();
         this.bathNum = houseRequestDto.getBathRoom();
         this.houseCase = houseRequestDto.getHouseCase();
         this.facilities = facilities;

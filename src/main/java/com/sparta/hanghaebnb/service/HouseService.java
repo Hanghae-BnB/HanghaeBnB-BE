@@ -1,14 +1,15 @@
 package com.sparta.hanghaebnb.service;
 
 import com.sparta.hanghaebnb.dto.request.HouseRequestDto;
-import com.sparta.hanghaebnb.dto.response.HouseResponseDto;
-import com.sparta.hanghaebnb.dto.response.MessageResponseDto;
+import com.sparta.hanghaebnb.dto.response.*;
 import com.sparta.hanghaebnb.entity.Facility;
 import com.sparta.hanghaebnb.entity.House;
+import com.sparta.hanghaebnb.entity.Review;
 import com.sparta.hanghaebnb.exception.CustomException;
 import com.sparta.hanghaebnb.exception.ErrorCode;
 import com.sparta.hanghaebnb.repository.FacilityRepository;
 import com.sparta.hanghaebnb.repository.HouseRepository;
+import com.sparta.hanghaebnb.repository.ReviewRepository;
 import com.sparta.hanghaebnb.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +41,8 @@ public class HouseService {
 
     private final HouseRepository houseRepository;
     private final FacilityRepository facilityRepository;
+
+    private  final ReviewRepository reviewRepository;
     private final S3Uploader s3Uploader;
 
     /**
@@ -86,12 +90,22 @@ public class HouseService {
      * 해당 게시글 조회 기능(추가 진행 예정)
      */
     @Transactional(readOnly = true)
-    public HouseResponseDto findHouse(Long houseId) {
+    public HouseDetailResponseDto findHouse(Long houseId) {
 
         House findHouse = houseRepository.findById(houseId).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_HOUSE));
 
-        return HouseResponseDto.of(findHouse,10,10);
+        List<FacilityResponseDto> facilityResponseList = findHouse.getFacilities().stream()
+                                                                        .map(f -> new FacilityResponseDto(f.getType()))
+                                                                        .collect(Collectors.toList());
+
+        List<Review> reviewList = reviewRepository.findAllByHouse(findHouse);
+
+        List<ReviewResponseDto> reviewResponseList = reviewList.stream().map(ReviewResponseDto::from).collect(Collectors.toList());
+
+        double starNum = (reviewList.size() > 0) ? reviewList.stream().mapToDouble( rv -> rv.getStar()).average().getAsDouble() : 0.0 ;
+
+        return HouseDetailResponseDto.of(findHouse,reviewResponseList,facilityResponseList,starNum);
     }
 
     /**
