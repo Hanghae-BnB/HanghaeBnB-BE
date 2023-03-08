@@ -88,7 +88,7 @@ public class House extends Timestamped{
                 .build();
     }
     //연관관계 매세드
-    public void update(HouseRequestDto houseRequestDto) {
+    public void update(HouseRequestDto houseRequestDto,String imgUrl) {
         this.title = houseRequestDto.getTitle();
         this.price =houseRequestDto.getPrice();
         this.location = houseRequestDto.getLocation();
@@ -99,6 +99,6 @@ public class House extends Timestamped{
         this.bedRoom = houseRequestDto.getBedRoom();
         this.bathRoom = houseRequestDto.getBathRoom();
         this.houseCase = houseRequestDto.getHouseCase();
-//        this.facilities = facilities;
+        this.imgUrl = imgUrl;
     }
 }

@@ -33,9 +33,6 @@ public class HouseController {
         return houseService.join(houseRequestDto,userDetails);
     }
 
-    /**
-     * 모든 여행지 조회 Controller
-     */
     @GetMapping("/houses")
     public List<HouseResponseDto> houses(){
         return houseService.findAllHouse();
@@ -48,9 +45,7 @@ public class HouseController {
         return houseService.findHouse(houseId);
     }
 
-    /**
-     * 여행지 수정 Controller
-     */
+    @Operation(summary = "숙박지 수정 요청", description = "해당 숙박지가 수정됩니다", tags = {"House"})
     @PutMapping("/houses/{house-id}")
     public MessageResponseDto updateHouse(@PathVariable(name = "house-id") Long houseId, @ModelAttribute HouseRequestDto houseRequestDto){
         return houseService.update(houseId, houseRequestDto);

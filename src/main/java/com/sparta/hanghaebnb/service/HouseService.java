@@ -52,16 +52,10 @@ public class HouseService {
      */
     public MessageResponseDto join(HouseRequestDto houseRequestDto, UserDetailsImpl userDetails) {
 
-        String imgUrl = "";
-
-        try{
-            File resize_File = resizeImage(houseRequestDto.getFile(),250,250);
-            imgUrl = s3Uploader.upload(resize_File);
-        }catch (IOException | NullPointerException e){
-            imgUrl = "https://cleaningproject.s3.ap-northeast-2.amazonaws.com/hanghaebnb/image_readtop_2021_125024_16126812034533410.jpeg";
-        }
+        String imgUrl = getImgUrl(houseRequestDto);
 
         House newHouse = House.of(houseRequestDto, userDetails.getUser(),imgUrl);
+        
         em.persist(newHouse);
 
         addFacility(houseRequestDto, newHouse);
@@ -115,11 +109,22 @@ public class HouseService {
 
         facilityRepository.deleteAllByHouseId(houseId);
 
+        String imgUrl = getImgUrl(houseRequestDto);
+
         addFacility(houseRequestDto, findHouse);
 
-        findHouse.update(houseRequestDto);
+        findHouse.update(houseRequestDto,imgUrl);
 
         return new MessageResponseDto("수정완료",HttpStatus.OK);
+    }
+
+    private String getImgUrl(HouseRequestDto houseRequestDto) {
+        try{
+            File resize_File = resizeImage(houseRequestDto.getFile(),250,250);
+            return s3Uploader.upload(resize_File);
+        }catch (IOException | NullPointerException e){
+            return "https://cleaningproject.s3.ap-northeast-2.amazonaws.com/hanghaebnb/image_readtop_2021_125024_16126812034533410.jpeg";
+        }
     }
 
     /**
