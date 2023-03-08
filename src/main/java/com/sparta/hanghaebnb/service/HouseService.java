@@ -32,10 +32,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,7 +76,24 @@ public class HouseService {
         // 페이징 처리
         Pageable pageable = PageRequest.of(page, size);
         Page<House> houses = houseRepository.findAllByOrderByCreatedAtDesc(pageable);
-        return houses.get().map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
+
+        List<HouseResponseDto> houseResponseDtoList = new ArrayList<>();
+
+        for (House house : houses) {
+            double sum = 0.0, avg =0.0;
+            List<Review> reviewList = reviewRepository.findAllByHouse(house);
+            if (reviewList.size() == 0) {
+                houseResponseDtoList.add(HouseResponseDto.of(house, 0, 0));
+                continue;
+            }
+            for (Review review : reviewList) {
+                sum += review.getStar();
+            }
+            avg = sum/reviewList.size();
+            houseResponseDtoList.add(HouseResponseDto.of(house, avg, reviewList.size()));
+        }
+
+        return houseResponseDtoList;
 
     }
 
@@ -157,7 +172,22 @@ public class HouseService {
 
         Page<House> findHouses = houseRepository.findAllByHouseCaseOrderByCreatedAtDesc(houseCase, pageable);
 
-        return findHouses.get().map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
+        List<HouseResponseDto> houseResponseDtoList = new ArrayList<>();
+        for (House house : findHouses) {
+            double sum = 0.0, avg =0.0;
+            List<Review> reviewList = reviewRepository.findAllByHouse(house);
+            if (reviewList.size() == 0) {
+                houseResponseDtoList.add(HouseResponseDto.of(house, 0, 0));
+                continue;
+            }
+            for (Review review : reviewList) {
+                sum += review.getStar();
+            }
+            avg = sum/reviewList.size();
+            houseResponseDtoList.add(HouseResponseDto.of(house, avg, reviewList.size()));
+        }
+
+        return houseResponseDtoList;
     }
 
     /**
@@ -168,7 +198,22 @@ public class HouseService {
         Pageable pageable = PageRequest.of(page,size);
         Page<House> findHouses = houseRepository.findAllByTitleContainsOrderByCreatedAtDesc(keyword,pageable);
 
-        return findHouses.get().map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
+        List<HouseResponseDto> houseResponseDtoList = new ArrayList<>();
+        for (House house : findHouses) {
+            double sum = 0.0, avg =0.0;
+            List<Review> reviewList = reviewRepository.findAllByHouse(house);
+            if (reviewList.size() == 0) {
+                houseResponseDtoList.add(HouseResponseDto.of(house, 0, 0));
+                continue;
+            }
+            for (Review review : reviewList) {
+                sum += review.getStar();
+            }
+            avg = sum/reviewList.size();
+            houseResponseDtoList.add(HouseResponseDto.of(house, avg, reviewList.size()));
+        }
+
+        return houseResponseDtoList;
     }
 
     /**
