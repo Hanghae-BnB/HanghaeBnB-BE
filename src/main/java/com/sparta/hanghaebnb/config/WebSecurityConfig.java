@@ -62,7 +62,7 @@ public class WebSecurityConfig {
                 .antMatchers("/api/users/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/houses").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/house").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/houses/{id}").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/houses/**").permitAll()
                 .antMatchers("/swagger-ui/index.html").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()

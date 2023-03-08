@@ -10,10 +10,12 @@ import com.sparta.hanghaebnb.service.HouseService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -34,10 +36,10 @@ public class HouseController {
     }
 
     @GetMapping("/houses")
-    public List<HouseResponseDto> houses(){
-        return houseService.findAllHouse();
+    public List<HouseResponseDto> houses(@RequestParam("page") int page,
+                                         @RequestParam("size") int size){
+        return houseService.findAllHouse(page-1, size);
     }
-
 
     @Operation(summary = "숙박지 상세 페이지 요청", description = "상세페이지 정보 조회", tags = {"House"})
     @GetMapping("/houses/{house-id}")
@@ -63,18 +65,22 @@ public class HouseController {
      * 여행지 카테고리별 조회 Controller
      */
     @GetMapping("/houses/house-case/{house-case}")
-    public List<HouseResponseDto> categoryHouse(@PathVariable(name="house-case") String houseCase){
-        return houseService.categoryHouses(houseCase);
+    public List<HouseResponseDto> categoryHouse(@PathVariable(name="house-case") String houseCase,
+                                                @RequestParam("page") int page,
+                                                @RequestParam("size") int size){
+        return houseService.categoryHouses(houseCase, page-1, size);
     }
 
     /**
      * 검색 기능으로 여행지 조회 Controller
      */
     @GetMapping("/house")
+
     public List<HouseResponseDto> keywordHouse(@RequestParam("keyword") String keyword,
                                                @RequestParam("page") int page,
                                                @RequestParam("size") int size){
         return houseService.keywordHouse(keyword,page-1,size);
+
     }
 
 }
