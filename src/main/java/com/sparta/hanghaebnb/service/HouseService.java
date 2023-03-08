@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import javax.persistence.EntityManager;
+import javax.swing.text.html.parser.Entity;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -41,9 +43,9 @@ public class HouseService {
 
     private final HouseRepository houseRepository;
     private final FacilityRepository facilityRepository;
-
     private  final ReviewRepository reviewRepository;
     private final S3Uploader s3Uploader;
+    private final EntityManager em;
 
     /**
      * 게시글 작성 기능
@@ -59,15 +61,10 @@ public class HouseService {
             imgUrl = "https://cleaningproject.s3.ap-northeast-2.amazonaws.com/hanghaebnb/image_readtop_2021_125024_16126812034533410.jpeg";
         }
 
-        // House Entity 생성
         House newHouse = House.of(houseRequestDto, userDetails.getUser(),imgUrl);
+        em.persist(newHouse);
 
-        // 편의시설 Entity 생성
-        List<Facility> facilities = Arrays.stream(houseRequestDto.getFacilities()).map(f -> new Facility(f, newHouse)).collect(Collectors.toList());
-
-        newHouse.addFacilities(facilities);
-
-        houseRepository.save(newHouse);
+        addFacility(houseRequestDto, newHouse);
 
         return new MessageResponseDto("성공", HttpStatus.OK);
     }
@@ -118,9 +115,9 @@ public class HouseService {
 
         facilityRepository.deleteAllByHouseId(houseId);
 
-        List<Facility> facilities = Arrays.stream(houseRequestDto.getFacilities()).map(f -> new Facility(f, findHouse)).collect(Collectors.toList());
+        addFacility(houseRequestDto, findHouse);
 
-        findHouse.update(houseRequestDto,facilities);
+        findHouse.update(houseRequestDto);
 
         return new MessageResponseDto("수정완료",HttpStatus.OK);
     }
@@ -156,6 +153,17 @@ public class HouseService {
         List<House> findHouses = houseRepository.findAllByTitleContainsOrderByCreatedAtDesc(keyword);
 
         return findHouses.stream().map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
+    }
+
+    /**
+     * 편의 시설 추가
+     */
+    private void addFacility(HouseRequestDto houseRequestDto, House findHouse) {
+        for (String f : houseRequestDto.getFacilities()) {
+            Facility newFacility = new Facility(f);
+            newFacility.addHouse(findHouse);
+            em.persist(newFacility);
+        }
     }
 
     /**
@@ -195,4 +203,6 @@ public class HouseService {
         }
         return null;
     }
+
+
 }
