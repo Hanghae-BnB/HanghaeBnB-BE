@@ -83,7 +83,7 @@ public class House extends Timestamped{
                 .maxPeople(houseRequestDto.getMaxPeople())
                 .bedNum(houseRequestDto.getBedNum())
                 .bedRoom(houseRequestDto.getBedRoom())
-                .bathRoom(houseRequestDto.getBathNum())
+                .bathRoom(houseRequestDto.getBathRoom())
                 .houseCase(houseRequestDto.getHouseCase())
                 .user(user)
                 .build();
@@ -103,7 +103,7 @@ public class House extends Timestamped{
         this.maxPeople = houseRequestDto.getMaxPeople();
         this.bedNum = houseRequestDto.getBedRoom();
         this.bedRoom = houseRequestDto.getBedRoom();
-        this.bathNum = houseRequestDto.getBathRoom();
+        this.bathRoom = houseRequestDto.getBathRoom();
         this.houseCase = houseRequestDto.getHouseCase();
         this.facilities = facilities;
     }
