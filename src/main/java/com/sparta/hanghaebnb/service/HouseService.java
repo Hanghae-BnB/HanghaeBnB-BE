@@ -5,15 +5,21 @@ import com.sparta.hanghaebnb.dto.response.*;
 import com.sparta.hanghaebnb.entity.Facility;
 import com.sparta.hanghaebnb.entity.House;
 import com.sparta.hanghaebnb.entity.Review;
+import com.sparta.hanghaebnb.entity.Wish;
 import com.sparta.hanghaebnb.exception.CustomException;
 import com.sparta.hanghaebnb.exception.ErrorCode;
 import com.sparta.hanghaebnb.repository.FacilityRepository;
 import com.sparta.hanghaebnb.repository.HouseRepository;
 import com.sparta.hanghaebnb.repository.ReviewRepository;
+import com.sparta.hanghaebnb.repository.WishRepository;
 import com.sparta.hanghaebnb.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +50,7 @@ public class HouseService {
 
     private final FacilityRepository facilityRepository;
     private  final ReviewRepository reviewRepository;
+    private final WishRepository wishRepository;
     private final S3Uploader s3Uploader;
 
     /**
@@ -68,13 +75,13 @@ public class HouseService {
      * 게시글 전체 조회 기능 (추가 진행 예정)
      */
     @Transactional(readOnly = true)
-    public List<HouseResponseDto> findAllHouse() {
+    public List<HouseResponseDto> findAllHouse(int page, int size) {
 
-        List<House> houses = houseRepository.findAllByOrderByCreatedAtDesc();
+        // 페이징 처리
+        Pageable pageable = PageRequest.of(page, size);
+        Page<House> houses = houseRepository.findAllByOrderByCreatedAtDesc(pageable);
+        return houses.get().map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
 
-        return houses.stream()
-                .map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100)))
-                .collect(Collectors.toList());
     }
 
     /**
@@ -146,21 +153,25 @@ public class HouseService {
     /**
      * 카테고리별 여행지 조회
      */
-    public List<HouseResponseDto> categoryHouses(String houseCase) {
+    public List<HouseResponseDto> categoryHouses(String houseCase, int page, int size) {
 
-        List<House> findHouses = houseRepository.findAllByHouseCaseOrderByCreatedAtDesc(houseCase);
+        Pageable pageable = PageRequest.of(page, size);
 
-        return findHouses.stream().map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
+        Page<House> findHouses = houseRepository.findAllByHouseCaseOrderByCreatedAtDesc(houseCase, pageable);
+
+        return findHouses.get().map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
     }
 
     /**
      * 검색 기능으로 여행지 조회
      */
-    public List<HouseResponseDto> keywordHouse(String keyword) {
+    public List<HouseResponseDto> keywordHouse(String keyword, int page, int size) {
 
-        List<House> findHouses = houseRepository.findAllByTitleContainsOrderByCreatedAtDesc(keyword);
+        Pageable pageable = PageRequest.of(page, size);
 
-        return findHouses.stream().map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
+        Page<House> findHouses = houseRepository.findAllByTitleContainsOrderByCreatedAtDesc(keyword, pageable);
+
+        return findHouses.get().map(h -> HouseResponseDto.of(h,(int)(Math.random()*100),(int)(Math.random()*100))).collect(Collectors.toList());
     }
 
     /**
