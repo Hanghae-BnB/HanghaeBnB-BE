@@ -32,9 +32,6 @@ public class HouseResponseDto {
         this.reviewNum = reviewNum;
     }
 
-
-
-
     public static HouseResponseDto of(House house,int likesNum , int reviewNum){
         DecimalFormat format = new DecimalFormat("###,###");
         return HouseResponseDto.builder()

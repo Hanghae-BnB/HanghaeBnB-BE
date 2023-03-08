@@ -1,6 +1,7 @@
 package com.sparta.hanghaebnb.controller;
 
 import com.sparta.hanghaebnb.dto.request.HouseRequestDto;
+import com.sparta.hanghaebnb.dto.response.HouseDetailResponseDto;
 import com.sparta.hanghaebnb.dto.response.HouseResponseDto;
 import com.sparta.hanghaebnb.dto.response.MessageResponseDto;
 import com.sparta.hanghaebnb.response.ApiDocumentResponse;
@@ -24,11 +25,8 @@ import java.util.List;
 public class HouseController {
 
     private final HouseService houseService;
-
-    /**
-     * 여행지 등록 관련 Controller
-     */
-    @Operation(summary = "게시글 생성 요청", description = "게시글이 추가됩니다.", tags = {"Board"})
+    
+    @Operation(summary = "숙박지 등록 요청", description = "숙박지가 추가됩니다.", tags = {"Houser"})
     @PostMapping("/houses")
     public MessageResponseDto createHouse(@Valid @ModelAttribute HouseRequestDto houseRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         log.info("houseRequestDto = {}" , houseRequestDto);
@@ -44,11 +42,9 @@ public class HouseController {
     }
 
 
-    /**
-     * 여행지 상세보기 Controller
-     */
+    @Operation(summary = "숙박지 상세 페이지 요청", description = "상세페이지 정보 조회", tags = {"House"})
     @GetMapping("/houses/{house-id}")
-    public HouseResponseDto house(@PathVariable(name="house-id") Long houseId){
+    public HouseDetailResponseDto house(@PathVariable(name="house-id") Long houseId){
         return houseService.findHouse(houseId);
     }
 
