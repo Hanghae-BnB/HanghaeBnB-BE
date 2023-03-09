@@ -53,12 +53,10 @@ jobs:
       # Spring 어플리케이션 Docker Image 빌드
     - name: Docker build & push to dev
       if: contains(github.ref, 'dev')
-      run: |
-          cd /home/runner/work/HanghaeBnb-BE/HanghaeBnb-BE/
-          
+      run: |          
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}/hanghaebnb .
-          docker push ${{ secrets.DOCKER_REPO }}/hanghaebnb
+          docker build -t ${{ secrets.DOCKER_REPO }}/${{ secrets.DOCKER_REPO }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
       
       
       # 서버에서 Docker 이미지 실행
