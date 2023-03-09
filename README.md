@@ -101,8 +101,8 @@ API 명세서 보러가기 : https://www.notion.so/bf9c53323687464d817a725dd503b
    ## 📌 STEP 6 : Trouble Shooting
 | 트러블 슈팅 내용 | 시도 및 해결 방법 |
 | --- | --- |
-| access토큰이 만료되었을시 자동으로 refresh 토큰값의 유효성을 검사하고, 검증이 되면헤더에 access토큰값을 새로 발급해 전달하는 로직을 짜는 중 LazyInitializationException에러가 발생 | **시도** : 1. Hibernate.initialize(refresh.getUser())메서드로 프록시 객체에 하위 엔티티를 초기화 <br/> 2. RefreshToken 엔티티를 생성할때 하위 엔티티인 User가 같이 불러와 지지 않는 문제라 Lazy 타입을 Eager로 바꿔서 진행을 했습니다. <br/> ➡️ patch join 시도 <br/> **해결방안** : 2번으로 해결 ➡️ SignatureException 에러 발생 <br/><br/> **시도**: 1. Claims 객체를 생성할때 access토큰이 아니라 refresh 토큰으로 Jwts 객체 리턴 <br/> **해결방안** : 1번으로 해결|
-| ERD wishList, House, User 간의 매핑 수정   | **시도** : 1) user와 wishList를 1:1로 매핑하고, wishList와 house를 간접적으로 다대다 매핑 <br/> 2) user-wishList : 1:1, wishListAndHouse : user와 house 사이의 중간 테이블<br/> **해결방안:** user-wish : 1:n / wish-house : n:1 (양방향) |
+| access토큰이 만료되었을시 자동으로 refresh 토큰값의 유효성을 검사하고, 검증이 되면헤더에 access토큰값을 새로 발급해 전달하는 로직을 짜는 중 LazyInitializationException에러가 발생 | • **시도** : 1. Hibernate.initialize(refresh.getUser())메서드로 프록시 객체에 하위 엔티티를 초기화 <br/> 2. RefreshToken 엔티티를 생성할때 하위 엔티티인 User가 같이 불러와 지지 않는 문제라 Lazy 타입을 Eager로 바꿔서 진행을 했습니다. <br/> ➡️ patch join 시도 <br/> • **해결방안** : 2번으로 해결 ➡️ SignatureException 에러 발생 <br/><br/> • **시도**: 1. Claims 객체를 생성할때 access토큰이 아니라 refresh 토큰으로 Jwts 객체 리턴 <br/> • **해결방안** : 1번으로 해결|
+| ERD wishList, House, User 간의 매핑 수정   | • **시도** : 1) user와 wishList를 1:1로 매핑하고, wishList와 house를 간접적으로 다대다 매핑 <br/> 2) user-wishList : 1:1, wishListAndHouse : user와 house 사이의 중간 테이블<br/> • **해결방안:** user-wish : 1:n / wish-house : n:1 (양방향) |
   
 
 <br/><br/>
