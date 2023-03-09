@@ -5,13 +5,13 @@
 name: Spring Boot & Gradle CI/CD 
 
 # Event Trigger
-# master branch에 push 또는 pull request가 발생할 경우 동작
+# dev branch에 push 또는 pull request가 발생할 경우 동작
 # branch 단위 외에도, tag나 cron 식 등을 사용할 수 있음 
 on:
   push:
-    branches: [ master ]
+    branches: [ dev ]
   pull_request:
-    branches: [ master ]
+    branches: [ dev ]
 
 jobs:
   build:
@@ -26,9 +26,58 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 17
-    
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    
+        distribution: 'temurin'
+        
+    ## create application-dev.properties
+    - name: make application-dev.properties
+      if: contains(github.ref, 'dev') # branch가 dev 때
+      run: |
+      	# spring의 resources 경로로 이동
+        cd ./src/main/resources 
+        
+        # application-dev.properties 파일 생성
+        touch ./application-dev.properties 
+        
+        # GitHub-Actions에서 설정한 값을 application-dev.properties 파일에 쓰기
+        echo "${{ secrets.PROPERTIES_DEV }}" > ./application-dev.properties 
+      shell: bash
+
+    ## create application.properties
+    - name: make application.properties
+      if: contains(github.ref, 'main') # branch가 main 일 때, 나머지는 위와 동일
+      run: |
+          cd ./src/main/resources
+          touch ./application.properties
+          echo "${{ secrets.PROPERTIES_PROD }}" > ./application.properties
+      shell: bash
+      
+      ## gradle build
     - name: Build with Gradle
-      run: ./gradlew clean build
+      run: ./gradlew bootJar
+      
+      # Spring 어플리케이션 Docker Image 빌드
+    - name: Docker build & push to dev
+      if: contains(github.ref, 'dev')
+      run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}/HanghaeBnB .
+          docker push ${{ secrets.DOCKER_REPO }}/HanghaeBnB
+      
+      
+      # 서버에서 Docker 이미지 실행
+    - name: EC2 Docker Run
+      uses: appleboy/ssh-action@master
+      if: contains(github.ref, 'dev')
+      with:
+        host: ${{ secrets.HOST_DEV }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.KEY }}
+        port: 22
+        script: |
+            sudo docker rm -f $(docker ps -qa)
+            sudo docker pull ${{ secrets.DOCKER_REPO }}/HanghaeBnB
+            docker-compose up -d
+            docker image prune -f
+      
+      
+      
