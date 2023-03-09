@@ -55,8 +55,8 @@ jobs:
       if: contains(github.ref, 'dev')
       run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}/HanghaeBnB .
-          docker push ${{ secrets.DOCKER_REPO }}/HanghaeBnB
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}/hanghaebnb .
+          docker push ${{ secrets.DOCKER_REPO }}/hanghaebnb
       
       
       # 서버에서 Docker 이미지 실행
@@ -70,7 +70,7 @@ jobs:
         port: 22
         script: |
             sudo docker rm -f $(docker ps -qa)
-            sudo docker pull ${{ secrets.DOCKER_REPO }}/HanghaeBnB
+            sudo docker pull ${{ secrets.DOCKER_REPO }}/hanghaebnb
             docker-compose up -d
             docker image prune -f
       
