@@ -54,6 +54,8 @@ jobs:
     - name: Docker build & push to dev
       if: contains(github.ref, 'dev')
       run: |
+          cd /home/runner/work/HanghaeBnb-BE/HanghaeBnb-BE/
+          
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}/hanghaebnb .
           docker push ${{ secrets.DOCKER_REPO }}/hanghaebnb
