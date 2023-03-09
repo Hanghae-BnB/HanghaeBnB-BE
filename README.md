@@ -82,7 +82,7 @@
 
 
 ## 🧱 STEP 3 :  ERD
-<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FGn3PU%2Fbtr2FiqCdkS%2FDBQH8LKlmGdDl2gextdNVK%2Fimg.png"  width="1000" height="800">
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbylrKC%2Fbtr2Filo9Ao%2Fp877TEFkAk8cDR84WfkTRk%2Fimg.png"  width="1000" height="800">
 <br/><br/> 
 
 ## 🏗️ STEP 4 :   API Specification
