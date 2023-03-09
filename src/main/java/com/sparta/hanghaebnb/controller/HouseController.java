@@ -28,16 +28,16 @@ public class HouseController {
 
     private final HouseService houseService;
     
-    @Operation(summary = "숙박지 등록 요청", description = "숙박지가 추가됩니다.", tags = {"Houser"})
+    @Operation(summary = "숙박지 등록 요청", description = "숙박지가 추가", tags = {"House"})
     @PostMapping("/houses")
     public MessageResponseDto createHouse(@Valid @ModelAttribute HouseRequestDto houseRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         log.info("houseRequestDto = {}" , houseRequestDto);
         return houseService.join(houseRequestDto,userDetails);
     }
 
+    @Operation(summary = "숙박지 전체 조회 요청", description = "요청 페이지 당 size만큼 등록일 내림차순 조회", tags = {"House"})
     @GetMapping("/houses")
-    public List<HouseResponseDto> houses(@RequestParam("page") int page,
-                                         @RequestParam("size") int size){
+    public List<HouseResponseDto> houses(@RequestParam("page") int page, @RequestParam("size") int size){
         return houseService.findAllHouse(page-1, size);
     }
 
@@ -47,23 +47,18 @@ public class HouseController {
         return houseService.findHouse(houseId);
     }
 
-    @Operation(summary = "숙박지 수정 요청", description = "해당 숙박지가 수정됩니다", tags = {"House"})
+    @Operation(summary = "숙박지 수정 요청", description = "해당 숙박지 수정", tags = {"House"})
     @PutMapping("/houses/{house-id}")
     public MessageResponseDto updateHouse(@PathVariable(name = "house-id") Long houseId, @ModelAttribute HouseRequestDto houseRequestDto){
         return houseService.update(houseId, houseRequestDto);
     }
 
-    /**
-     * 여행지 삭제 Controller
-     */
+    @Operation(summary = "숙박지 삭제 요청", description = "해당 숙박지 삭제", tags = {"House"})
     @DeleteMapping("/houses/{house-id}")
     public MessageResponseDto removeHouse(@PathVariable(name="house-id") Long houseId){
         return houseService.remove(houseId);
     }
-
-    /**
-     * 여행지 카테고리별 조회 Controller
-     */
+    @Operation(summary = "숙박 형태에 따른 요청", description = "숙박형태에 따라 요청 페이지 당 size만큼  조회", tags = {"House"})
     @GetMapping("/houses/house-case/{house-case}")
     public List<HouseResponseDto> categoryHouse(@PathVariable(name="house-case") String houseCase,
                                                 @RequestParam("page") int page,
@@ -71,11 +66,8 @@ public class HouseController {
         return houseService.categoryHouses(houseCase, page-1, size);
     }
 
-    /**
-     * 검색 기능으로 여행지 조회 Controller
-     */
+    @Operation(summary = "검색어에 따른 요청", description = "검색어에 따라 요청 페이지 당 size만큼  조회", tags = {"House"})
     @GetMapping("/house")
-
     public List<HouseResponseDto> keywordHouse(@RequestParam("keyword") String keyword,
                                                @RequestParam("page") int page,
                                                @RequestParam("size") int size){
