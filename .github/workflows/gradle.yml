@@ -49,17 +49,13 @@ jobs:
         chmod +x ./gradlew
         
         ./gradlew build
-      
-      ## root directory로 이동
-    - name: Check out code
-      uses: actions/checkout@v3
-      
+
       # Spring 어플리케이션 Docker Image 빌드
     - name: Docker build & push to dev
       if: contains(github.ref, 'dev')
       run: |          
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }} .
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }} .
           docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
       
       
