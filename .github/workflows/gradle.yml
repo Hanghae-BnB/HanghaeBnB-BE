@@ -32,7 +32,8 @@ jobs:
     - name: make application-dev.properties
       if: contains(github.ref, 'dev') # branch가 dev 때
       run: |
-      	# spring의 resources 경로로 이동
+        
+        # spring의 resources 경로로 이동
         cd ./src/main/resources 
         
         # application-dev.properties 파일 생성
@@ -40,15 +41,6 @@ jobs:
         
         # GitHub-Actions에서 설정한 값을 application-dev.properties 파일에 쓰기
         echo "${{ secrets.PROPERTIES_DEV }}" > ./application-dev.properties 
-      shell: bash
-
-    ## create application.properties
-    - name: make application.properties
-      if: contains(github.ref, 'main') # branch가 main 일 때, 나머지는 위와 동일
-      run: |
-          cd ./src/main/resources
-          touch ./application.properties
-          echo "${{ secrets.PROPERTIES_PROD }}" > ./application.properties
       shell: bash
       
       ## gradle build
